@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Lock, Unlock, BookOpen, Users, Trophy, Plus, Heart, Coffee, DollarSign, ChevronDown, ChevronUp } from 'lucide-react';
+import { Lock, Unlock, BookOpen, Trophy, Heart, Coffee, DollarSign, ChevronDown, ChevronUp } from 'lucide-react';
 
 // Animated Otter Logo Component
 const AnimatedOtter = () => {
@@ -39,7 +39,7 @@ const AnimatedOtter = () => {
         <line x1="65" y1="42" x2="72" y2="41" stroke="#000" strokeWidth="0.5" />
         <line x1="65" y1="44" x2="72" y2="45" stroke="#000" strokeWidth="0.5" />
         
-        <g style={{ 
+        <g style={{
           animation: isWaving ? 'wave 0.6s ease-in-out' : 'none',
           transformOrigin: '30px 55px'
         }}>
@@ -67,13 +67,57 @@ const AnimatedOtter = () => {
   );
 };
 
-// Cipher implementations
+// Cipher implementations organized by category
 const cipherAlgorithms = {
+  // SUBSTITUTION CIPHERS
+  caesar: {
+    name: 'Caesar Cipher',
+    description: 'Shift each letter by a fixed number',
+    category: 'substitution',
+    difficulty: 'beginner',
+    requiresKeys: true,
+    encrypt: (text, shift = 3) => {
+      shift = parseInt(shift) || 3;
+      return text.split('').map(char => {
+        if (char.match(/[a-z]/i)) {
+          const code = char.charCodeAt(0);
+          const base = code >= 65 && code <= 90 ? 65 : 97;
+          return String.fromCharCode(((code - base + shift) % 26) + base);
+        }
+        return char;
+      }).join('');
+    },
+    decrypt: (text, shift = 3) => {
+      shift = parseInt(shift) || 3;
+      return cipherAlgorithms.caesar.encrypt(text, 26 - shift);
+    }
+  },
+  atbash: {
+    name: 'Atbash Cipher',
+    description: 'Reverse alphabet substitution (A↔Z, B↔Y)',
+    category: 'substitution',
+    difficulty: 'beginner',
+    encrypt: (text) => {
+      return text.split('').map(char => {
+        if (char.match(/[a-z]/i)) {
+          const code = char.charCodeAt(0);
+          const isUpper = code >= 65 && code <= 90;
+          const base = isUpper ? 65 : 97;
+          return String.fromCharCode(base + (25 - (code - base)));
+        }
+        return char;
+      }).join('');
+    },
+    decrypt: (text) => {
+      return cipherAlgorithms.atbash.encrypt(text);
+    }
+  },
   aristocrat: {
     name: 'Aristocrat Cipher',
-    description: 'Monoalphabetic substitution preserving word spaces',
+    description: 'Monoalphabetic substitution preserving spaces',
+    category: 'substitution',
+    difficulty: 'intermediate',
     key: 'ZEBRASCDFGHIJKLMNOPQTUVWXY',
-    youtubeUrl: 'https://www.youtube.com/watch?v=YOUR_VIDEO_ID_1',
     encrypt: (text) => {
       const plain = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
       const key = cipherAlgorithms.aristocrat.key;
@@ -97,11 +141,110 @@ const cipherAlgorithms = {
       }).join('');
     }
   },
+  patristocrat: {
+    name: 'Patristocrat Cipher',
+    description: 'Aristocrat without word spaces',
+    category: 'substitution',
+    difficulty: 'intermediate',
+    key: 'ZEBRASCDFGHIJKLMNOPQTUVWXY',
+    encrypt: (text) => {
+      const plain = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      const key = cipherAlgorithms.patristocrat.key;
+      return text.toUpperCase().replace(/[^A-Z]/g, '').split('').map(char => {
+        const index = plain.indexOf(char);
+        return key[index];
+      }).join('');
+    },
+    decrypt: (text) => {
+      const plain = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      const key = cipherAlgorithms.patristocrat.key;
+      return text.toUpperCase().replace(/[^A-Z]/g, '').split('').map(char => {
+        const index = key.indexOf(char);
+        return plain[index];
+      }).join('');
+    }
+  },
+  affine: {
+    name: 'Affine Cipher',
+    description: 'Mathematical formula: E(x) = (ax + b) mod 26',
+    category: 'substitution',
+    difficulty: 'advanced',
+    encrypt: (text, a = 5, b = 8) => {
+      return text.split('').map(char => {
+        if (char.match(/[a-z]/i)) {
+          const code = char.charCodeAt(0);
+          const base = code >= 65 && code <= 90 ? 65 : 97;
+          const x = code - base;
+          return String.fromCharCode(((a * x + b) % 26) + base);
+        }
+        return char;
+      }).join('');
+    },
+    decrypt: (text) => {
+      return 'Use decryption formula with modular inverse';
+    }
+  },
+  
+  // POLYALPHABETIC CIPHERS
+  porta: {
+    name: 'Porta Cipher',
+    description: 'Polyalphabetic cipher with reciprocal alphabet',
+    category: 'polyalphabetic',
+    difficulty: 'intermediate',
+    requiresKeys: true,
+    encrypt: (text, keyword = 'CRYPTO') => {
+      const portaTable = {
+        'AB': 'NOPQRSTUVWXYZABCDEFGHIJKLM',
+        'CD': 'OPQRSTUVWXYZABCDEFGHIJKLMN',
+        'EF': 'PQRSTUVWXYZABCDEFGHIJKLMNO',
+        'GH': 'QRSTUVWXYZABCDEFGHIJKLMNOP',
+        'IJ': 'RSTUVWXYZABCDEFGHIJKLMNOPQ',
+        'KL': 'STUVWXYZABCDEFGHIJKLMNOPQR',
+        'MN': 'TUVWXYZABCDEFGHIJKLMNOPQRS',
+        'OP': 'UVWXYZABCDEFGHIJKLMNOPQRST',
+        'QR': 'VWXYZABCDEFGHIJKLMNOPQRSTU',
+        'ST': 'WXYZABCDEFGHIJKLMNOPQRSTUV',
+        'UV': 'XYZABCDEFGHIJKLMNOPQRSTUVW',
+        'WX': 'YZABCDEFGHIJKLMNOPQRSTUVWX',
+        'YZ': 'ZABCDEFGHIJKLMNOPQRSTUVWXY'
+      };
+      
+      const plain = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      const cleanText = text.toUpperCase().replace(/[^A-Z]/g, '');
+      const cleanKey = keyword.toUpperCase().replace(/[^A-Z]/g, '');
+      let result = '';
+      
+      for (let i = 0; i < cleanText.length; i++) {
+        const textChar = cleanText[i];
+        const keyChar = cleanKey[i % cleanKey.length];
+        
+        let keyRow = null;
+        for (let pair in portaTable) {
+          if (pair.includes(keyChar)) {
+            keyRow = portaTable[pair];
+            break;
+          }
+        }
+        
+        if (keyRow) {
+          const textIndex = plain.indexOf(textChar);
+          result += keyRow[textIndex];
+        }
+      }
+      return result;
+    },
+    decrypt: (text, keyword = 'CRYPTO') => {
+      return cipherAlgorithms.porta.encrypt(text, keyword);
+    }
+  },
+  
+  // POLYGRAPHIC CIPHERS
   nihilist: {
     name: 'Nihilist Cipher',
-    description: 'Uses Polybius square with numerical key addition',
+    description: 'Polybius square with numerical key addition',
+    category: 'polygraphic',
+    difficulty: 'advanced',
     requiresKeys: true,
-    youtubeUrl: 'https://www.youtube.com/watch?v=YOUR_VIDEO_ID_4',
     encrypt: (text, keyword = 'CRYPTO', polybiusKey = 'CRYPTO') => {
       const createSquare = (key) => {
         const uniqueKey = [...new Set(key.toUpperCase().replace(/J/g, 'I').split(''))].join('');
@@ -172,29 +315,118 @@ const cipherAlgorithms = {
       return result;
     }
   },
-  affine: {
-    name: 'Affine Cipher',
-    description: 'Uses mathematical formula: E(x) = (ax + b) mod 26',
-    youtubeUrl: 'https://www.youtube.com/watch?v=YOUR_VIDEO_ID_2',
-    encrypt: (text, a = 5, b = 8) => {
-      return text.split('').map(char => {
-        if (char.match(/[a-z]/i)) {
-          const code = char.charCodeAt(0);
-          const base = code >= 65 && code <= 90 ? 65 : 97;
-          const x = code - base;
-          return String.fromCharCode(((a * x + b) % 26) + base);
+  checkerboard: {
+    name: 'Straddling Checkerboard',
+    description: 'Variable-length numerical encoding',
+    category: 'polygraphic',
+    difficulty: 'advanced',
+    requiresKeys: true,
+    encrypt: (text, key = 'CRYPTO', blankPositions = '2,6') => {
+      const blanks = blankPositions.split(',').map(n => parseInt(n.trim()));
+      const alphabet = [...new Set(key.toUpperCase() + 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.replace(/J/g, 'I'))].join('').slice(0, 28);
+      
+      const board = {};
+      let letterIndex = 0;
+      
+      for (let col = 0; col < 10; col++) {
+        if (!blanks.includes(col)) {
+          board[alphabet[letterIndex]] = col.toString();
+          letterIndex++;
         }
-        return char;
-      }).join('');
+      }
+      
+      for (let blank of blanks) {
+        for (let col = 0; col < 10; col++) {
+          if (letterIndex < alphabet.length) {
+            board[alphabet[letterIndex]] = blank.toString() + col.toString();
+            letterIndex++;
+          }
+        }
+      }
+      
+      const cleanText = text.toUpperCase().replace(/J/g, 'I').replace(/[^A-Z]/g, '');
+      return cleanText.split('').map(c => board[c] || '').join('');
     },
     decrypt: (text) => {
-      return 'Use decryption formula with modular inverse';
+      return 'Decryption requires board reconstruction';
     }
   },
+  
+  // TRANSPOSITION CIPHERS
+  columnar: {
+    name: 'Complete Columnar',
+    description: 'Transposition using keyword column order',
+    category: 'transposition',
+    difficulty: 'intermediate',
+    requiresKeys: true,
+    encrypt: (text, keyword = 'CRYPTO') => {
+      const cleanText = text.toUpperCase().replace(/[^A-Z]/g, '');
+      const keyLength = keyword.length;
+      const keyOrder = keyword.toUpperCase().split('').map((char, idx) => ({ char, idx }))
+        .sort((a, b) => a.char.localeCompare(b.char))
+        .map((item, sortedIdx) => ({ ...item, order: sortedIdx }))
+        .sort((a, b) => a.idx - b.idx)
+        .map(item => item.order);
+      
+      const rows = Math.ceil(cleanText.length / keyLength);
+      const grid = [];
+      
+      for (let i = 0; i < rows; i++) {
+        grid[i] = [];
+        for (let j = 0; j < keyLength; j++) {
+          const charIndex = i * keyLength + j;
+          grid[i][j] = charIndex < cleanText.length ? cleanText[charIndex] : 'X';
+        }
+      }
+      
+      let result = '';
+      keyOrder.forEach((colIdx, order) => {
+        const column = keyOrder.indexOf(order);
+        for (let row = 0; row < rows; row++) {
+          result += grid[row][column];
+        }
+      });
+      
+      return result;
+    },
+    decrypt: (text, keyword = 'CRYPTO') => {
+      const keyLength = keyword.length;
+      const rows = Math.ceil(text.length / keyLength);
+      const keyOrder = keyword.toUpperCase().split('').map((char, idx) => ({ char, idx }))
+        .sort((a, b) => a.char.localeCompare(b.char))
+        .map((item, sortedIdx) => ({ ...item, order: sortedIdx }))
+        .sort((a, b) => a.idx - b.idx)
+        .map(item => item.order);
+      
+      const grid = Array(rows).fill().map(() => Array(keyLength).fill(''));
+      let textIndex = 0;
+      
+      keyOrder.forEach((colIdx, order) => {
+        const column = keyOrder.indexOf(order);
+        for (let row = 0; row < rows; row++) {
+          if (textIndex < text.length) {
+            grid[row][column] = text[textIndex++];
+          }
+        }
+      });
+      
+      let result = '';
+      for (let row = 0; row < rows; row++) {
+        for (let col = 0; col < keyLength; col++) {
+          result += grid[row][col];
+        }
+      }
+      
+      return result.replace(/X+$/, '');
+    }
+  },
+  
+  // ENCODING CIPHERS
   baconian: {
     name: 'Baconian Cipher',
-    description: 'Encodes letters as sequences of A and B',
-    youtubeUrl: 'https://www.youtube.com/watch?v=YOUR_VIDEO_ID_3',
+    description: 'Binary encoding with A and B',
+    category: 'encoding',
+    difficulty: 'beginner',
     encrypt: (text) => {
       const bacon = {
         'A': 'AAAAA', 'B': 'AAAAB', 'C': 'AAABA', 'D': 'AAABB', 'E': 'AABAA',
@@ -221,35 +453,72 @@ const cipherAlgorithms = {
 
 const CipherOtto = () => {
   const [activeTab, setActiveTab] = useState('learn');
-  const [selectedCipher, setSelectedCipher] = useState('aristocrat');
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedCipher, setSelectedCipher] = useState('caesar');
   const [inputText, setInputText] = useState('');
   const [outputText, setOutputText] = useState('');
   const [mode, setMode] = useState('encrypt');
+  
+  // Cipher-specific parameters
+  const [caesarShift, setCaesarShift] = useState(3);
   const [nihilistKeyword, setNihilistKeyword] = useState('CRYPTO');
   const [nihilistPolybiusKey, setNihilistPolybiusKey] = useState('CRYPTO');
+  const [portaKeyword, setPortaKeyword] = useState('CRYPTO');
+  const [columnarKeyword, setColumnarKeyword] = useState('CRYPTO');
+  const [checkerboardKey, setCheckerboardKey] = useState('CRYPTO');
+  const [checkerboardBlanks, setCheckerboardBlanks] = useState('2,6');
+  
   const [practiceChallenge, setPracticeChallenge] = useState(null);
   const [userAnswer, setUserAnswer] = useState('');
   const [score, setScore] = useState(0);
   const [showDonateModal, setShowDonateModal] = useState(false);
   const [showFrequencyTable, setShowFrequencyTable] = useState(false);
 
-  const VENMO_LINK = 'https://venmo.com/u/Nitin-Kumar-22';
-  const PAYPAL_LINK = 'https://paypal.me/kumarnitin007';
+  const VENMO_LINK = 'https://venmo.com/YOUR-USERNAME';
+  const PAYPAL_LINK = 'https://paypal.me/YOUR-USERNAME';
+
+  const categories = {
+    all: { name: 'All Ciphers', icon: '🔐' },
+    substitution: { name: 'Substitution', icon: '🔤' },
+    polyalphabetic: { name: 'Polyalphabetic', icon: '🔡' },
+    polygraphic: { name: 'Polygraphic', icon: '🔢' },
+    transposition: { name: 'Transposition', icon: '↔️' },
+    encoding: { name: 'Encoding', icon: '💾' }
+  };
+
+  const getFilteredCiphers = () => {
+    if (selectedCategory === 'all') {
+      return Object.keys(cipherAlgorithms);
+    }
+    return Object.keys(cipherAlgorithms).filter(
+      key => cipherAlgorithms[key].category === selectedCategory
+    );
+  };
 
   const generateChallenge = () => {
     const messages = ['HELLO WORLD', 'CRYPTOGRAPHY IS FUN', 'BREAK THE CODE', 'SECRET MESSAGE', 'LEARN TO ENCRYPT'];
     const randomMsg = messages[Math.floor(Math.random() * messages.length)];
     const cipher = cipherAlgorithms[selectedCipher];
     
-    let encrypted, challengeKeyword, challengePolybiusKey, frequencyTable;
+    let encrypted, challengeKeyword, challengePolybiusKey, challengeShift, frequencyTable;
+    
     if (selectedCipher === 'nihilist') {
       challengeKeyword = 'SECRET';
       challengePolybiusKey = 'CRYPTO';
       encrypted = cipher.encrypt(randomMsg, challengeKeyword, challengePolybiusKey);
+    } else if (selectedCipher === 'caesar') {
+      challengeShift = Math.floor(Math.random() * 25) + 1;
+      encrypted = cipher.encrypt(randomMsg, challengeShift);
+    } else if (selectedCipher === 'porta' || selectedCipher === 'columnar') {
+      challengeKeyword = 'SECRET';
+      encrypted = cipher.encrypt(randomMsg, challengeKeyword);
+    } else if (selectedCipher === 'checkerboard') {
+      challengeKeyword = 'SECRET';
+      encrypted = cipher.encrypt(randomMsg, challengeKeyword, '2,6');
     } else {
       encrypted = cipher.encrypt(randomMsg);
       
-      if (selectedCipher === 'aristocrat') {
+      if (selectedCipher === 'aristocrat' || selectedCipher === 'patristocrat') {
         const letterCounts = {};
         encrypted.replace(/[^A-Z]/g, '').split('').forEach(char => {
           letterCounts[char] = (letterCounts[char] || 0) + 1;
@@ -266,6 +535,7 @@ const CipherOtto = () => {
       cipher: selectedCipher,
       keyword: challengeKeyword,
       polybiusKey: challengePolybiusKey,
+      shift: challengeShift,
       frequencyTable: frequencyTable
     });
     setUserAnswer('');
@@ -274,8 +544,10 @@ const CipherOtto = () => {
 
   const checkAnswer = () => {
     if (userAnswer.toUpperCase().replace(/\s/g, '') === practiceChallenge.original.replace(/\s/g, '')) {
-      setScore(score + 10);
-      alert('🎉 Correct! Otto is so proud! +10 points');
+      const cipher = cipherAlgorithms[practiceChallenge.cipher];
+      const points = cipher.difficulty === 'beginner' ? 5 : cipher.difficulty === 'intermediate' ? 10 : 15;
+      setScore(score + points);
+      alert(`🎉 Correct! Otto is so proud! +${points} points`);
       generateChallenge();
     } else {
       alert('🦦 Not quite right. Otto believes in you - try again!');
@@ -286,20 +558,56 @@ const CipherOtto = () => {
     const cipher = cipherAlgorithms[selectedCipher];
     if (cipher) {
       let result;
+      
       if (selectedCipher === 'nihilist') {
         result = mode === 'encrypt' 
           ? cipher.encrypt(inputText, nihilistKeyword, nihilistPolybiusKey)
           : cipher.decrypt(inputText, nihilistKeyword, nihilistPolybiusKey);
+      } else if (selectedCipher === 'caesar') {
+        result = mode === 'encrypt' 
+          ? cipher.encrypt(inputText, caesarShift)
+          : cipher.decrypt(inputText, caesarShift);
+      } else if (selectedCipher === 'porta') {
+        result = mode === 'encrypt' 
+          ? cipher.encrypt(inputText, portaKeyword)
+          : cipher.decrypt(inputText, portaKeyword);
+      } else if (selectedCipher === 'columnar') {
+        result = mode === 'encrypt' 
+          ? cipher.encrypt(inputText, columnarKeyword)
+          : cipher.decrypt(inputText, columnarKeyword);
+      } else if (selectedCipher === 'checkerboard') {
+        result = mode === 'encrypt' 
+          ? cipher.encrypt(inputText, checkerboardKey, checkerboardBlanks)
+          : cipher.decrypt(inputText);
       } else {
         result = mode === 'encrypt' ? cipher.encrypt(inputText) : cipher.decrypt(inputText);
       }
+      
       setOutputText(result);
+    }
+  };
+
+  const getDifficultyColor = (difficulty) => {
+    switch(difficulty) {
+      case 'beginner': return 'text-green-300';
+      case 'intermediate': return 'text-yellow-300';
+      case 'advanced': return 'text-red-300';
+      default: return 'text-gray-300';
+    }
+  };
+
+  const getDifficultyBadge = (difficulty) => {
+    switch(difficulty) {
+      case 'beginner': return '⭐';
+      case 'intermediate': return '⭐⭐';
+      case 'advanced': return '⭐⭐⭐';
+      default: return '';
     }
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 text-white p-4">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         <div className="text-center mb-8 pt-8">
           <AnimatedOtter />
           <h1 className="text-4xl font-bold mb-2 mt-4">Cipher Otto</h1>
@@ -353,9 +661,28 @@ const CipherOtto = () => {
         {activeTab === 'learn' && (
           <div className="space-y-6">
             <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6">
+              <h2 className="text-xl font-bold mb-4">Cipher Categories</h2>
+              <div className="flex gap-2 flex-wrap">
+                {Object.entries(categories).map(([key, cat]) => (
+                  <button
+                    key={key}
+                    onClick={() => setSelectedCategory(key)}
+                    className={`px-4 py-2 rounded-lg font-semibold transition-all ${
+                      selectedCategory === key
+                        ? 'bg-gradient-to-r from-cyan-400 to-blue-500 text-white'
+                        : 'bg-white/10 hover:bg-white/20'
+                    }`}
+                  >
+                    {cat.icon} {cat.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6">
               <h2 className="text-xl font-bold mb-4">Select Cipher</h2>
-              <div className="grid grid-cols-2 gap-3">
-                {Object.keys(cipherAlgorithms).map(key => (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                {getFilteredCiphers().map(key => (
                   <button
                     key={key}
                     onClick={() => setSelectedCipher(key)}
@@ -365,28 +692,19 @@ const CipherOtto = () => {
                         : 'bg-white/10 hover:bg-white/20'
                     }`}
                   >
-                    <div className="font-bold">{cipherAlgorithms[key].name}</div>
-                    <div className="text-sm mt-1 opacity-90">{cipherAlgorithms[key].description}</div>
+                    <div className="flex items-center justify-between mb-1">
+                      <div className="font-bold">{cipherAlgorithms[key].name}</div>
+                      <span className={getDifficultyColor(cipherAlgorithms[key].difficulty)}>
+                        {getDifficultyBadge(cipherAlgorithms[key].difficulty)}
+                      </span>
+                    </div>
+                    <div className="text-sm opacity-90">{cipherAlgorithms[key].description}</div>
+                    <div className="text-xs mt-2 opacity-75">
+                      {categories[cipherAlgorithms[key].category]?.icon} {categories[cipherAlgorithms[key].category]?.name}
+                    </div>
                   </button>
                 ))}
               </div>
-
-              {cipherAlgorithms[selectedCipher].youtubeUrl && (
-                <div className="mt-6 p-4 bg-gradient-to-r from-red-500/20 to-pink-500/20 border-2 border-red-500/30 rounded-xl">
-                  <div className="flex items-start gap-3">
-                    <svg className="w-12 h-12 text-red-500 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-                    </svg>
-                    <div className="flex-1">
-                      <h3 className="font-bold text-lg mb-1">📺 Video Tutorial Available!</h3>
-                      <p className="text-sm text-purple-200 mb-3">Watch Otto explain {cipherAlgorithms[selectedCipher].name}!</p>
-                      <a href={cipherAlgorithms[selectedCipher].youtubeUrl} target="_blank" rel="noopener noreferrer" className="inline-block bg-red-600 hover:bg-red-700 px-6 py-2 rounded-lg font-bold transition-all">
-                        🎬 Watch Tutorial
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              )}
             </div>
 
             <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6">
@@ -398,6 +716,20 @@ const CipherOtto = () => {
                   <Unlock className="w-5 h-5" />Decrypt
                 </button>
               </div>
+
+              {selectedCipher === 'caesar' && (
+                <div className="mb-4 p-4 bg-purple-900/30 rounded-lg border-2 border-purple-500/30">
+                  <label className="text-sm font-bold text-purple-200 block mb-2">🔑 Shift Value (0-25):</label>
+                  <input
+                    type="number"
+                    min="0"
+                    max="25"
+                    value={caesarShift}
+                    onChange={(e) => setCaesarShift(parseInt(e.target.value) || 0)}
+                    className="w-full p-3 rounded-lg bg-white/20 border-2 border-white/30 text-white"
+                  />
+                </div>
+              )}
 
               {selectedCipher === 'nihilist' && (
                 <div className="mb-4 space-y-3 p-4 bg-purple-900/30 rounded-lg border-2 border-purple-500/30">
@@ -426,6 +758,59 @@ const CipherOtto = () => {
                 </div>
               )}
 
+              {selectedCipher === 'porta' && (
+                <div className="mb-4 p-4 bg-purple-900/30 rounded-lg border-2 border-purple-500/30">
+                  <label className="text-sm font-bold text-purple-200 block mb-2">🔑 Keyword:</label>
+                  <input
+                    type="text"
+                    value={portaKeyword}
+                    onChange={(e) => setPortaKeyword(e.target.value.toUpperCase())}
+                    placeholder="CRYPTO"
+                    className="w-full p-3 rounded-lg bg-white/20 border-2 border-white/30 text-white placeholder-white/50"
+                  />
+                </div>
+              )}
+
+              {selectedCipher === 'columnar' && (
+                <div className="mb-4 p-4 bg-purple-900/30 rounded-lg border-2 border-purple-500/30">
+                  <label className="text-sm font-bold text-purple-200 block mb-2">🔑 Keyword:</label>
+                  <input
+                    type="text"
+                    value={columnarKeyword}
+                    onChange={(e) => setColumnarKeyword(e.target.value.toUpperCase())}
+                    placeholder="CRYPTO"
+                    className="w-full p-3 rounded-lg bg-white/20 border-2 border-white/30 text-white placeholder-white/50"
+                  />
+                  <div className="text-xs text-purple-300 mt-1">💡 Columns are arranged by alphabetical order of keyword letters</div>
+                </div>
+              )}
+
+              {selectedCipher === 'checkerboard' && (
+                <div className="mb-4 space-y-3 p-4 bg-purple-900/30 rounded-lg border-2 border-purple-500/30">
+                  <div className="text-sm font-bold text-purple-200 mb-2">🔑 Checkerboard Settings:</div>
+                  <div>
+                    <label className="text-xs text-purple-200 block mb-1">Key:</label>
+                    <input
+                      type="text"
+                      value={checkerboardKey}
+                      onChange={(e) => setCheckerboardKey(e.target.value.toUpperCase())}
+                      placeholder="CRYPTO"
+                      className="w-full p-3 rounded-lg bg-white/20 border-2 border-white/30 text-white placeholder-white/50"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-xs text-purple-200 block mb-1">Blank Positions (e.g., 2,6):</label>
+                    <input
+                      type="text"
+                      value={checkerboardBlanks}
+                      onChange={(e) => setCheckerboardBlanks(e.target.value)}
+                      placeholder="2,6"
+                      className="w-full p-3 rounded-lg bg-white/20 border-2 border-white/30 text-white placeholder-white/50 font-mono"
+                    />
+                  </div>
+                </div>
+              )}
+
               <input
                 type="text"
                 value={inputText}
@@ -433,7 +818,6 @@ const CipherOtto = () => {
                 placeholder="Enter your message..."
                 className="w-full p-4 rounded-lg bg-white/20 border-2 border-white/30 text-white placeholder-white/50 mb-4"
               />
-
               <button
                 onClick={processCipher}
                 className="w-full bg-gradient-to-r from-purple-500 to-pink-500 py-4 rounded-lg font-bold hover:from-purple-600 hover:to-pink-600 transition-all"
@@ -460,7 +844,39 @@ const CipherOtto = () => {
                 <div className="text-center py-8">
                   <div className="mb-4 animate-bounce"><AnimatedOtter /></div>
                   <p className="mb-2 text-xl font-bold">Otto wants to practice!</p>
-                  <p className="mb-6 text-purple-200">Ready to test your cipher-cracking skills?</p>
+                  <p className="mb-4 text-purple-200">Ready to test your cipher-cracking skills?</p>
+                  
+                  <div className="mb-6">
+                    <label className="text-sm font-bold text-purple-200 block mb-3">
+                      Choose a cipher to practice (higher difficulty = more points!):
+                    </label>
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-2 max-w-2xl mx-auto">
+                      {Object.keys(cipherAlgorithms).map(key => (
+                        <button
+                          key={key}
+                          onClick={() => setSelectedCipher(key)}
+                          className={`p-3 rounded-lg text-sm transition-all ${
+                            selectedCipher === key
+                              ? 'bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900 font-bold'
+                              : 'bg-white/10 hover:bg-white/20'
+                          }`}
+                        >
+                          <div className="flex items-center justify-between mb-1">
+                            <span className="text-xs truncate">{cipherAlgorithms[key].name}</span>
+                            <span className="text-xs ml-1">
+                              {getDifficultyBadge(cipherAlgorithms[key].difficulty)}
+                            </span>
+                          </div>
+                          <div className={`text-xs ${selectedCipher === key ? 'text-gray-700' : 'text-purple-300'}`}>
+                            {cipherAlgorithms[key].difficulty === 'beginner' && '+5 pts'}
+                            {cipherAlgorithms[key].difficulty === 'intermediate' && '+10 pts'}
+                            {cipherAlgorithms[key].difficulty === 'advanced' && '+15 pts'}
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  
                   <button
                     onClick={generateChallenge}
                     className="bg-gradient-to-r from-green-500 to-teal-500 px-8 py-4 rounded-lg font-bold hover:from-green-600 hover:to-teal-600 transition-all"
@@ -472,11 +888,11 @@ const CipherOtto = () => {
                 <div>
                   <div className="bg-purple-900/50 p-4 rounded-lg mb-4">
                     <div className="text-sm text-purple-200 mb-2">
-                      Cipher: {cipherAlgorithms[practiceChallenge.cipher].name}
+                      Cipher: {cipherAlgorithms[practiceChallenge.cipher].name} {getDifficultyBadge(cipherAlgorithms[practiceChallenge.cipher].difficulty)}
                     </div>
-                    <div className="font-mono text-xl mb-3">{practiceChallenge.encrypted}</div>
+                    <div className="font-mono text-xl mb-3 break-all">{practiceChallenge.encrypted}</div>
                     
-                    {practiceChallenge.cipher === 'aristocrat' && practiceChallenge.frequencyTable && (
+                    {(practiceChallenge.cipher === 'aristocrat' || practiceChallenge.cipher === 'patristocrat') && practiceChallenge.frequencyTable && (
                       <div className="mt-3">
                         <button
                           onClick={() => setShowFrequencyTable(!showFrequencyTable)}
@@ -488,7 +904,7 @@ const CipherOtto = () => {
                         
                         {showFrequencyTable && (
                           <div className="mt-3 p-4 bg-purple-800/50 rounded-lg border border-purple-500/30">
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                               <div>
                                 <div className="text-xs text-purple-300 mb-2">Ciphertext Letters:</div>
                                 <div className="space-y-1">
@@ -496,7 +912,7 @@ const CipherOtto = () => {
                                     <div key={letter} className="flex items-center gap-2">
                                       <span className="font-mono text-yellow-300 font-bold w-6">{letter}</span>
                                       <div className="flex-1 bg-purple-900/50 rounded-full h-5 overflow-hidden">
-                                        <div 
+                                        <div
                                           className="bg-gradient-to-r from-yellow-400 to-orange-500 h-full flex items-center justify-end pr-2"
                                           style={{ width: `${(count / Math.max(...practiceChallenge.frequencyTable.map(f => f.count))) * 100}%` }}
                                         >
@@ -542,8 +958,27 @@ const CipherOtto = () => {
                         </div>
                       </div>
                     )}
+                    
+                    {practiceChallenge.cipher === 'caesar' && practiceChallenge.shift && (
+                      <div className="mt-3 p-3 bg-purple-800/50 rounded-lg border border-purple-500/30">
+                        <div className="text-sm font-bold text-purple-200 mb-2">🔑 Hint:</div>
+                        <div className="text-sm">
+                          <span className="text-purple-300">Shift Value:</span>{' '}
+                          <span className="font-mono text-yellow-300">{practiceChallenge.shift}</span>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {(practiceChallenge.cipher === 'porta' || practiceChallenge.cipher === 'columnar' || practiceChallenge.cipher === 'checkerboard') && practiceChallenge.keyword && (
+                      <div className="mt-3 p-3 bg-purple-800/50 rounded-lg border border-purple-500/30">
+                        <div className="text-sm font-bold text-purple-200 mb-2">🔑 Keyword:</div>
+                        <div className="text-sm">
+                          <span className="font-mono text-yellow-300">{practiceChallenge.keyword}</span>
+                        </div>
+                      </div>
+                    )}
                   </div>
-
+                  
                   <input
                     type="text"
                     value={userAnswer}
@@ -551,7 +986,6 @@ const CipherOtto = () => {
                     placeholder="Enter your decrypted answer..."
                     className="w-full p-4 rounded-lg bg-white/20 border-2 border-white/30 text-white placeholder-white/50 mb-4"
                   />
-
                   <div className="flex gap-2">
                     <button
                       onClick={checkAnswer}
