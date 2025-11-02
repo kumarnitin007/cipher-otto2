@@ -527,7 +527,24 @@ const useCipherProcessor = (selectedCipher, mode, inputText, caesarShift, affine
 // ============================================================================
 const usePracticeChallenge = (selectedCipher) => {
   const generateChallenge = () => {
-    const messages = ['HELLO WORLD', 'CRYPTOGRAPHY IS FUN', 'BREAK THE CODE', 'SECRET MESSAGE'];
+    const messages = [
+  'HELLO WORLD',
+  'CRYPTOGRAPHY IS FUN',
+  'BREAK THE CODE',
+  'SECRET MESSAGE',
+  'OTTO THE OTTER',
+  'CIPHER CHALLENGE',
+  'LEARN TO ENCRYPT',
+  'HIDDEN TREASURE',
+  'SPY ACADEMY',
+  'CODE BREAKER',
+  'MATH IS COOL',
+  'SECURITY FIRST',
+  'PUZZLE MASTER',
+  'CRYPTO WIZARD',
+  'SECRET AGENT',
+  'DECODE THIS NOW'
+];
     const randomMsg = messages[Math.floor(Math.random() * messages.length)];
     const cipher = cipherAlgorithms[selectedCipher];
     
