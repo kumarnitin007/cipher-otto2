@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Lock, Unlock, BookOpen, Trophy, Heart, Coffee, DollarSign, ChevronDown, ChevronUp, Info, Copy, Check } from 'lucide-react';
+import { Lock, Unlock, BookOpen, Trophy, Heart, Coffee, DollarSign, ChevronDown, ChevronUp, Info, Copy, Check, Sparkles, Star } from 'lucide-react';
 
 // ============================================================================
-// FILE: components/AnimatedOtter.jsx
+// Animated Otter Component
 // ============================================================================
 const AnimatedOtter = () => {
   const [isWaving, setIsWaving] = useState(false);
@@ -53,7 +53,7 @@ const AnimatedOtter = () => {
 };
 
 // ============================================================================
-// FILE: ciphers/caesar.js
+// Cipher Algorithms
 // ============================================================================
 const caesarCipher = {
   name: 'Caesar Cipher',
@@ -86,16 +86,13 @@ const caesarCipher = {
   }
 };
 
-// ============================================================================
-// FILE: ciphers/atbash.js
-// ============================================================================
 const atbashCipher = {
   name: 'Atbash Cipher',
   description: 'Reverse alphabet substitution',
   category: 'substitution',
   difficulty: 'beginner',
   info: 'One of the oldest known ciphers. A becomes Z, B becomes Y.',
-  youtubeUrl: 'https://www.youtube.com/watch?v=BrHRb1zBlPY',
+  youtubeUrl: 'https://www.youtube.com/watch?v=17o9l4D2xyI',
   funMessage: 'The alphabet is doing a backflip! Try encrypting PIZZA!',
   relatedCiphers: [
     { name: 'Caesar Cipher', inApp: true, description: 'Shifts letters by a fixed amount' },
@@ -117,24 +114,20 @@ const atbashCipher = {
   decrypt: (text) => atbashCipher.encrypt(text)
 };
 
-// ============================================================================
-// FILE: ciphers/aristocrat.js
-// ============================================================================
 const aristocratCipher = {
   name: 'Aristocrat Cipher',
   description: 'Monoalphabetic substitution with spaces',
   category: 'substitution',
   difficulty: 'intermediate',
   info: 'A substitution cipher that preserves word boundaries.',
-  youtubeUrl: 'https://www.youtube.com/watch?v=2I_o1RFhGsM',
+  youtubeUrl: 'https://www.youtube.com/watch?v=tKSqkglfqJU',
   funMessage: 'Be a detective like Sherlock Holmes! Look for THE and AND!',
   key: 'ZEBRASCDFGHIJKLMNOPQTUVWXY',
   relatedCiphers: [
-    { name: 'Patristocrat Cipher', inApp: false, description: 'Same as Aristocrat but removes all spaces between words' },
+    { name: 'Patristocrat Cipher', inApp: true, description: 'Same as Aristocrat but removes all spaces between words' },
     { name: 'Caesar Cipher', inApp: true, description: 'Simple shift substitution cipher' },
     { name: 'Atbash Cipher', inApp: true, description: 'Reverses the alphabet completely' },
-    { name: 'Affine Cipher', inApp: true, description: 'Mathematical substitution cipher' },
-    { name: 'Keyword Cipher', inApp: false, description: 'Uses a keyword to create the substitution alphabet' }
+    { name: 'Affine Cipher', inApp: true, description: 'Mathematical substitution cipher' }
   ],
   encrypt: (text) => {
     const plain = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -158,9 +151,6 @@ const aristocratCipher = {
   }
 };
 
-// ============================================================================
-// FILE: ciphers/affine.js
-// ============================================================================
 const affineCipher = {
   name: 'Affine Cipher',
   description: 'Mathematical cipher using formula',
@@ -172,8 +162,7 @@ const affineCipher = {
   relatedCiphers: [
     { name: 'Caesar Cipher', inApp: true, description: 'Special case of Affine where a=1' },
     { name: 'Atbash Cipher', inApp: true, description: 'Special case of Affine where a=-1, b=-1' },
-    { name: 'Multiplicative Cipher', inApp: false, description: 'Affine cipher where b=0' },
-    { name: 'Hill Cipher', inApp: false, description: 'Uses matrix multiplication for encryption' }
+    { name: 'Multiplicative Cipher', inApp: false, description: 'Affine cipher where b=0' }
   ],
   encrypt: (text, a = 5, b = 8) => {
     return text.split('').map(char => {
@@ -206,23 +195,17 @@ const affineCipher = {
   }
 };
 
-// ============================================================================
-// FILE: ciphers/nihilist.js
-// ============================================================================
 const nihilistCipher = {
   name: 'Nihilist Cipher',
   description: 'Polybius square with numerical addition',
   category: 'polygraphic',
   difficulty: 'advanced',
   info: 'Used by Russian Nihilists in the 1880s. Combines Polybius square with numerical addition.',
-  youtubeUrl: 'https://www.youtube.com/watch?v=DoMbqKdZgfY',
+  youtubeUrl: 'https://www.youtube.com/watch?v=FLmk983WHg8&t=366s',
   funMessage: 'Russian revolutionaries used this! Turns letters into numbers!',
   relatedCiphers: [
     { name: 'Straddling Checkerboard', inApp: true, description: 'Variable-length numerical encoding used by Soviet spies' },
-    { name: 'Polybius Square', inApp: false, description: 'Converts letters to coordinates in a 5×5 grid' },
-    { name: 'Playfair Cipher', inApp: false, description: 'Encrypts pairs of letters using a 5×5 grid' },
-    { name: 'Four-Square Cipher', inApp: false, description: 'Uses four 5×5 matrices to encrypt digraphs' },
-    { name: 'Bifid Cipher', inApp: false, description: 'Combines Polybius square with transposition' }
+    { name: 'Polybius Square', inApp: false, description: 'Converts letters to coordinates in a 5×5 grid' }
   ],
   encrypt: (text, keyword = 'CRYPTO', polybiusKey = 'CRYPTO') => {
     const createSquare = (key) => {
@@ -288,22 +271,16 @@ const nihilistCipher = {
   }
 };
 
-// ============================================================================
-// FILE: ciphers/checkerboard.js
-// ============================================================================
 const checkerboardCipher = {
   name: 'Straddling Checkerboard',
   description: 'Variable-length numerical encoding',
   category: 'polygraphic',
   difficulty: 'advanced',
   info: 'Used by Soviet spies during the Cold War.',
-  youtubeUrl: 'https://www.youtube.com/watch?v=RR6nq2U0iq4',
+  youtubeUrl: 'https://www.youtube.com/watch?v=1ggE6xkeQUw',
   funMessage: 'Cold War spies LOVED this cipher! Real spy techniques!',
   relatedCiphers: [
-    { name: 'Nihilist Cipher', inApp: true, description: 'Russian cipher using Polybius square with addition' },
-    { name: 'VIC Cipher', inApp: false, description: 'Complex Soviet spy cipher using checkerboard' },
-    { name: 'Polybius Square', inApp: false, description: 'Ancient Greek cipher using coordinate pairs' },
-    { name: 'ADFGVX Cipher', inApp: false, description: 'German WWI cipher combining substitution and transposition' }
+    { name: 'Nihilist Cipher', inApp: true, description: 'Russian cipher using Polybius square with addition' }
   ],
   encrypt: (text, key = 'CRYPTO', blankPositions = '2,6') => {
     const blanks = blankPositions.split(',').map(n => parseInt(n.trim()));
@@ -330,9 +307,6 @@ const checkerboardCipher = {
   decrypt: () => 'Requires board reconstruction'
 };
 
-// ============================================================================
-// FILE: ciphers/columnar.js
-// ============================================================================
 const columnarCipher = {
   name: 'Complete Columnar',
   description: 'Transposition using keyword order',
@@ -343,10 +317,7 @@ const columnarCipher = {
   funMessage: 'Your message does a dance and switches places!',
   relatedCiphers: [
     { name: 'Rail Fence Cipher', inApp: false, description: 'Writes text in zigzag pattern across rails' },
-    { name: 'Route Cipher', inApp: false, description: 'Writes message in grid and reads in different pattern' },
-    { name: 'Scytale Cipher', inApp: false, description: 'Ancient Greek transposition using a rod' },
-    { name: 'Double Columnar', inApp: false, description: 'Applies columnar transposition twice for extra security' },
-    { name: 'Myszkowski Transposition', inApp: false, description: 'Columnar variant handling repeated letters in key' }
+    { name: 'Route Cipher', inApp: false, description: 'Writes message in grid and reads in different pattern' }
   ],
   encrypt: (text, keyword = 'CRYPTO') => {
     const cleanText = text.toUpperCase().replace(/[^A-Z]/g, '');
@@ -402,22 +373,18 @@ const columnarCipher = {
   }
 };
 
-// ============================================================================
-// FILE: ciphers/baconian.js
-// ============================================================================
 const baconianCipher = {
   name: 'Baconian Cipher',
   description: 'Binary encoding with A and B',
   category: 'encoding',
   difficulty: 'beginner',
   info: 'Invented by Francis Bacon using As and Bs.',
-  youtubeUrl: 'https://www.youtube.com/watch?v=qP_vT68KqgY',
+  youtubeUrl: 'https://www.youtube.com/watch?v=T6lg0qC27I4',
+  youtubeUrlAdvanced: 'https://www.youtube.com/watch?v=bQosctxFQFs',
   funMessage: 'This cipher uses only As and Bs! Like computer code from the 1600s!',
   relatedCiphers: [
     { name: 'Morse Code', inApp: false, description: 'Uses dots and dashes to encode letters' },
-    { name: 'Binary Code', inApp: false, description: 'Modern digital encoding using 0s and 1s' },
-    { name: 'Braille', inApp: false, description: 'Tactile writing system using raised dots' },
-    { name: 'Tap Code', inApp: false, description: 'Polybius-based code using knocks or taps' }
+    { name: 'Binary Code', inApp: false, description: 'Modern digital encoding using 0s and 1s' }
   ],
   encrypt: (text) => {
     const bacon = {
@@ -442,10 +409,137 @@ const baconianCipher = {
   }
 };
 
-// ============================================================================
-// FILE: ciphers/index.js
-// Export all ciphers as a combined object
-// ============================================================================
+const portaCipher = {
+  name: 'Porta Cipher',
+  description: 'Polyalphabetic substitution with keyword',
+  category: 'polyalphabetic',
+  difficulty: 'intermediate',
+  info: 'Created by Giovanni Battista della Porta in 1563. Uses 13 alphabets.',
+  youtubeUrl: 'https://www.youtube.com/watch?v=mXOcQ8QwlYI',
+  funMessage: 'This Renaissance cipher uses 13 alphabets! It\'s self-reciprocal!',
+  relatedCiphers: [
+    { name: 'Vigenère Cipher', inApp: false, description: 'Classic polyalphabetic cipher using keyword' },
+    { name: 'Beaufort Cipher', inApp: false, description: 'Similar to Vigenère but uses subtraction' },
+    { name: 'Caesar Cipher', inApp: true, description: 'Simple shift cipher' }
+  ],
+  encrypt: (text, keyword = 'CRYPTO') => {
+    const tableau = {
+      'AB': 'NOPQRSTUVWXYZABCDEFGHIJKLM',
+      'CD': 'OPQRSTUVWXYZNMABCDEFGHIJKL',
+      'EF': 'PQRSTUVWXYZNOLMABCDEFGHIJK',
+      'GH': 'QRSTUVWXYZNOPKLMABCDEFGHIJ',
+      'IJ': 'RSTUVWXYZNOPQJKLMABCDEFGHI',
+      'KL': 'STUVWXYZNOPQRIJKLMABCDEFGH',
+      'MN': 'TUVWXYZNOPQRSHIJKLMABCDEFG',
+      'OP': 'UVWXYZNOPQRSTGHIJKLMABCDEF',
+      'QR': 'VWXYZNOPQRSTUFGHIJKLMABCDE',
+      'ST': 'WXYZNOPQRSTUVEFGHIJKLMABCD',
+      'UV': 'XYZNOPQRSTUVWDEFGHIJKLMABC',
+      'WX': 'YZNOPQRSTUVWXCDEFGHIJKLMAB',
+      'YZ': 'ZNOPQRSTUVWXYBCDEFGHIJKLMA'
+    };
+    
+    const getAlphabet = (char) => {
+      char = char.toUpperCase();
+      for (let key in tableau) {
+        if (key.includes(char)) return tableau[key];
+      }
+      return tableau['AB'];
+    };
+    
+    const plainAlpha = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const cleanText = text.toUpperCase().replace(/[^A-Z]/g, '');
+    const cleanKey = keyword.toUpperCase().replace(/[^A-Z]/g, '');
+    
+    let result = '';
+    for (let i = 0; i < cleanText.length; i++) {
+      const keyChar = cleanKey[i % cleanKey.length];
+      const textChar = cleanText[i];
+      const alphabet = getAlphabet(keyChar);
+      const index = plainAlpha.indexOf(textChar);
+      result += alphabet[index];
+    }
+    return result;
+  },
+  decrypt: (text, keyword = 'CRYPTO') => {
+    // Porta cipher is self-reciprocal
+    return portaCipher.encrypt(text, keyword);
+  }
+};
+
+const patristocratCipher = {
+  name: 'Patristocrat Cipher',
+  description: 'Monoalphabetic substitution without spaces',
+  category: 'substitution',
+  difficulty: 'intermediate',
+  info: 'Similar to Aristocrat but removes all spaces, making it harder to solve.',
+  youtubeUrl: 'https://www.youtube.com/watch?v=WRhiaHFBZLw',
+  funMessage: 'No spaces allowed! This makes word boundaries invisible!',
+  key: 'ZEBRASCDFGHIJKLMNOPQTUVWXY',
+  relatedCiphers: [
+    { name: 'Aristocrat Cipher', inApp: true, description: 'Same cipher but preserves spaces' },
+    { name: 'Caesar Cipher', inApp: true, description: 'Simple shift substitution' },
+    { name: 'Atbash Cipher', inApp: true, description: 'Reverses the alphabet' }
+  ],
+  encrypt: (text) => {
+    const plain = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const key = patristocratCipher.key;
+    return text.toUpperCase().replace(/[^A-Z]/g, '').split('').map(char => {
+      if (char.match(/[A-Z]/)) {
+        return key[plain.indexOf(char)];
+      }
+      return '';
+    }).join('');
+  },
+  decrypt: (text) => {
+    const plain = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const key = patristocratCipher.key;
+    return text.toUpperCase().split('').map(char => {
+      if (char.match(/[A-Z]/)) {
+        return plain[key.indexOf(char)];
+      }
+      return char;
+    }).join('');
+  }
+};
+
+const cryptarithmCipher = {
+  name: 'Cryptarithm',
+  description: 'Mathematical puzzle with letter substitution',
+  category: 'puzzle',
+  difficulty: 'advanced',
+  info: 'A type of mathematical puzzle where digits are replaced by letters.',
+  youtubeUrl: 'https://puzzles-to-print.com/math-puzzles/cryptarithms.shtml',
+  funMessage: 'Math meets cryptography! SEND + MORE = MONEY can you solve it?',
+  relatedCiphers: [
+    { name: 'Aristocrat Cipher', inApp: true, description: 'Letter substitution puzzle' },
+    { name: 'Alphametics', inApp: false, description: 'Classic cryptarithm puzzles' }
+  ],
+  encrypt: (text) => {
+    // For demonstration, we'll create a simple letter-to-digit mapping
+    const digitMap = {
+      'O': '0', 'I': '1', 'T': '2', 'E': '3', 'F': '4',
+      'S': '5', 'X': '6', 'V': '7', 'N': '8', 'U': '9'
+    };
+    
+    return text.toUpperCase().split('').map(char => {
+      if (digitMap[char]) return digitMap[char];
+      return char;
+    }).join('');
+  },
+  decrypt: (text) => {
+    const letterMap = {
+      '0': 'O', '1': 'I', '2': 'T', '3': 'E', '4': 'F',
+      '5': 'S', '6': 'X', '7': 'V', '8': 'N', '9': 'U'
+    };
+    
+    return text.split('').map(char => {
+      if (letterMap[char]) return letterMap[char];
+      return char;
+    }).join('');
+  }
+};
+
 const cipherAlgorithms = {
   caesar: caesarCipher,
   atbash: atbashCipher,
@@ -454,28 +548,24 @@ const cipherAlgorithms = {
   nihilist: nihilistCipher,
   checkerboard: checkerboardCipher,
   columnar: columnarCipher,
-  baconian: baconianCipher
+  baconian: baconianCipher,
+  porta: portaCipher,
+  patristocrat: patristocratCipher,
+  cryptarithm: cryptarithmCipher
 };
 
 // ============================================================================
-// FILE: constants/categories.js
+// Helper Functions
 // ============================================================================
 const categories = {
   substitution: { name: 'Substitution', icon: '🔤' },
   polygraphic: { name: 'Polygraphic', icon: '🔢' },
   transposition: { name: 'Transposition', icon: '↔️' },
-  encoding: { name: 'Encoding', icon: '💾' }
+  encoding: { name: 'Encoding', icon: '💾' },
+  polyalphabetic: { name: 'Polyalphabetic', icon: '🔄' },
+  puzzle: { name: 'Puzzle', icon: '🧩' }
 };
 
-// ============================================================================
-// FILE: constants/config.js
-// ============================================================================
-const VENMO_LINK = 'https://venmo.com/Nitin-Kumar-22';
-const PAYPAL_LINK = 'https://paypal.me/kumarnitin007';
-
-// ============================================================================
-// FILE: utils/helpers.js
-// ============================================================================
 const getDifficultyColor = (difficulty) => {
   switch(difficulty) {
     case 'beginner': return 'text-green-300';
@@ -495,99 +585,7 @@ const getDifficultyBadge = (difficulty) => {
 };
 
 // ============================================================================
-// FILE: hooks/useCipherProcessor.js
-// ============================================================================
-const useCipherProcessor = (selectedCipher, mode, inputText, caesarShift, affineA, affineB, nihilistKeyword, nihilistPolybiusKey, columnarKeyword, checkerboardKey, checkerboardBlanks) => {
-  const processCipher = () => {
-    const cipher = cipherAlgorithms[selectedCipher];
-    if (!cipher) return '';
-    
-    let result;
-    if (selectedCipher === 'caesar') {
-      result = mode === 'encrypt' ? cipher.encrypt(inputText, caesarShift) : cipher.decrypt(inputText, caesarShift);
-    } else if (selectedCipher === 'affine') {
-      result = mode === 'encrypt' ? cipher.encrypt(inputText, affineA, affineB) : cipher.decrypt(inputText, affineA, affineB);
-    } else if (selectedCipher === 'nihilist') {
-      result = mode === 'encrypt' ? cipher.encrypt(inputText, nihilistKeyword, nihilistPolybiusKey) : cipher.decrypt(inputText, nihilistKeyword, nihilistPolybiusKey);
-    } else if (selectedCipher === 'columnar') {
-      result = mode === 'encrypt' ? cipher.encrypt(inputText, columnarKeyword) : cipher.decrypt(inputText, columnarKeyword);
-    } else if (selectedCipher === 'checkerboard') {
-      result = mode === 'encrypt' ? cipher.encrypt(inputText, checkerboardKey, checkerboardBlanks) : cipher.decrypt(inputText);
-    } else {
-      result = mode === 'encrypt' ? cipher.encrypt(inputText) : cipher.decrypt(inputText);
-    }
-    return result;
-  };
-  
-  return { processCipher };
-};
-
-// ============================================================================
-// FILE: hooks/usePracticeChallenge.js
-// ============================================================================
-const usePracticeChallenge = (selectedCipher) => {
-  const generateChallenge = () => {
-    const messages = [
-  'HELLO WORLD',
-  'CRYPTOGRAPHY IS FUN',
-  'BREAK THE CODE',
-  'SECRET MESSAGE',
-  'OTTO THE OTTER',
-  'CIPHER CHALLENGE',
-  'LEARN TO ENCRYPT',
-  'HIDDEN TREASURE',
-  'SPY ACADEMY',
-  'CODE BREAKER',
-  'MATH IS COOL',
-  'SECURITY FIRST',
-  'PUZZLE MASTER',
-  'CRYPTO WIZARD',
-  'SECRET AGENT',
-  'DECODE THIS NOW'
-];
-    const randomMsg = messages[Math.floor(Math.random() * messages.length)];
-    const cipher = cipherAlgorithms[selectedCipher];
-    
-    let encrypted, challengeKeyword, challengeShift, challengePolybiusKey;
-    
-    if (selectedCipher === 'caesar') {
-      challengeShift = Math.floor(Math.random() * 25) + 1;
-      encrypted = cipher.encrypt(randomMsg, challengeShift);
-    } else if (selectedCipher === 'affine') {
-      const validA = [5, 7, 9, 11, 15, 17, 19, 21, 23, 25];
-      const challengeA = validA[Math.floor(Math.random() * validA.length)];
-      const challengeB = Math.floor(Math.random() * 26);
-      encrypted = cipher.encrypt(randomMsg, challengeA, challengeB);
-      challengeKeyword = `a=${challengeA}, b=${challengeB}`;
-    } else if (selectedCipher === 'columnar') {
-      challengeKeyword = 'SECRET';
-      encrypted = cipher.encrypt(randomMsg, challengeKeyword);
-    } else if (selectedCipher === 'nihilist') {
-      challengeKeyword = 'SECRET';
-      challengePolybiusKey = 'CRYPTO';
-      encrypted = cipher.encrypt(randomMsg, challengeKeyword, challengePolybiusKey);
-    } else if (selectedCipher === 'checkerboard') {
-      challengeKeyword = 'SECRET';
-      encrypted = cipher.encrypt(randomMsg, challengeKeyword, '2,6');
-    } else {
-      encrypted = cipher.encrypt(randomMsg);
-    }
-    
-    return {
-      original: randomMsg,
-      encrypted: encrypted,
-      cipher: selectedCipher,
-      keyword: challengeKeyword,
-      polybiusKey: challengePolybiusKey,
-      shift: challengeShift
-    };
-  };
-  
-  return { generateChallenge };
-};
-
-// ============================================================================
-// FILE: components/DonateModal.jsx
+// Components
 // ============================================================================
 const DonateModal = ({ show, onClose }) => {
   if (!show) return null;
@@ -597,37 +595,38 @@ const DonateModal = ({ show, onClose }) => {
       <div className="bg-gradient-to-br from-purple-900 to-pink-900 rounded-2xl p-8 max-w-md w-full shadow-2xl border-2 border-white/20" onClick={e => e.stopPropagation()}>
         <div className="text-center mb-6">
           <div className="mb-4"><AnimatedOtter /></div>
-          <h2 className="text-3xl font-bold mb-2">Support Otto!</h2>
+          <h2 className="text-3xl font-bold mb-2">Support Otto! 💙</h2>
+          <p className="text-purple-200">Help keep this app free and ad-free!</p>
         </div>
         <div className="space-y-3 mb-6">
-          <a href={VENMO_LINK} target="_blank" rel="noopener noreferrer" className="block w-full bg-gradient-to-r from-blue-500 to-cyan-500 py-4 rounded-xl font-bold text-center">
+          <a href="https://venmo.com/Nitin-Kumar-22" target="_blank" rel="noopener noreferrer" className="block w-full bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 py-4 rounded-xl font-bold text-center transition-all">
             <Coffee className="w-6 h-6 inline mr-2" />
             Donate via Venmo
           </a>
-          <a href={PAYPAL_LINK} target="_blank" rel="noopener noreferrer" className="block w-full bg-gradient-to-r from-yellow-500 to-orange-500 py-4 rounded-xl font-bold text-center">
+          <a href="https://paypal.me/kumarnitin007" target="_blank" rel="noopener noreferrer" className="block w-full bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 py-4 rounded-xl font-bold text-center transition-all">
             <DollarSign className="w-6 h-6 inline mr-2" />
             Donate via PayPal
           </a>
         </div>
-        <button onClick={onClose} className="w-full bg-white/10 hover:bg-white/20 py-3 rounded-xl font-semibold">Close</button>
+        <button onClick={onClose} className="w-full bg-white/10 hover:bg-white/20 py-3 rounded-xl font-semibold transition-all">Close</button>
       </div>
     </div>
   );
 };
 
-// ============================================================================
-// FILE: components/CipherSelector.jsx
-// ============================================================================
 const CipherSelector = ({ selectedCipher, onSelect }) => {
   return (
-    <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 shadow-lg">
-      <h2 className="text-2xl font-bold mb-4">Select Cipher</h2>
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+    <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 shadow-lg border border-white/10">
+      <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
+        <Sparkles className="w-6 h-6 text-yellow-400" />
+        Select Cipher
+      </h2>
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
         {Object.keys(cipherAlgorithms).map(key => (
-          <button key={key} onClick={() => onSelect(key)} className={`p-3 rounded-lg text-sm transition-all ${selectedCipher === key ? 'bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900 font-bold shadow-lg' : 'bg-white/10 hover:bg-white/20'}`}>
-            <div className="flex items-center justify-between">
-              <span className="truncate">{cipherAlgorithms[key].name}</span>
-              <span className={`ml-2 flex-shrink-0 ${selectedCipher === key ? 'text-gray-900' : getDifficultyColor(cipherAlgorithms[key].difficulty)}`}>
+          <button key={key} onClick={() => onSelect(key)} className={`p-4 rounded-xl text-sm transition-all transform hover:scale-105 ${selectedCipher === key ? 'bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900 font-bold shadow-lg scale-105' : 'bg-white/10 hover:bg-white/20'}`}>
+            <div className="flex flex-col items-center gap-2">
+              <span className="text-center">{cipherAlgorithms[key].name}</span>
+              <span className={`${selectedCipher === key ? 'text-gray-900' : getDifficultyColor(cipherAlgorithms[key].difficulty)}`}>
                 {getDifficultyBadge(cipherAlgorithms[key].difficulty)}
               </span>
             </div>
@@ -639,7 +638,7 @@ const CipherSelector = ({ selectedCipher, onSelect }) => {
 };
 
 // ============================================================================
-// FILE: App.jsx - Main Component
+// Main App Component
 // ============================================================================
 const CipherOtto = () => {
   const [activeTab, setActiveTab] = useState('learn');
@@ -657,6 +656,7 @@ const CipherOtto = () => {
   const [checkerboardBlanks, setCheckerboardBlanks] = useState('2,6');
   const [nihilistKeyword, setNihilistKeyword] = useState('CRYPTO');
   const [nihilistPolybiusKey, setNihilistPolybiusKey] = useState('CRYPTO');
+  const [portaKeyword, setPortaKeyword] = useState('CRYPTO');
   
   const [practiceChallenge, setPracticeChallenge] = useState(null);
   const [userAnswer, setUserAnswer] = useState('');
@@ -665,20 +665,27 @@ const CipherOtto = () => {
   const [showCipherInfo, setShowCipherInfo] = useState(false);
   const [showTutorial, setShowTutorial] = useState(false);
   
-  const { processCipher: processFunc } = useCipherProcessor(
-    selectedCipher, mode, inputText, caesarShift, affineA, affineB,
-    nihilistKeyword, nihilistPolybiusKey, columnarKeyword, checkerboardKey, checkerboardBlanks
-  );
-  
-  const { generateChallenge: genChallenge } = usePracticeChallenge(selectedCipher);
-  
   const processCipher = () => {
-    const result = processFunc();
+    const cipher = cipherAlgorithms[selectedCipher];
+    if (!cipher) return;
+    
+    let result;
+    if (selectedCipher === 'caesar') {
+      result = mode === 'encrypt' ? cipher.encrypt(inputText, caesarShift) : cipher.decrypt(inputText, caesarShift);
+    } else if (selectedCipher === 'affine') {
+      result = mode === 'encrypt' ? cipher.encrypt(inputText, affineA, affineB) : cipher.decrypt(inputText, affineA, affineB);
+    } else if (selectedCipher === 'nihilist') {
+      result = mode === 'encrypt' ? cipher.encrypt(inputText, nihilistKeyword, nihilistPolybiusKey) : cipher.decrypt(inputText, nihilistKeyword, nihilistPolybiusKey);
+    } else if (selectedCipher === 'columnar') {
+      result = mode === 'encrypt' ? cipher.encrypt(inputText, columnarKeyword) : cipher.decrypt(inputText, columnarKeyword);
+    } else if (selectedCipher === 'checkerboard') {
+      result = mode === 'encrypt' ? cipher.encrypt(inputText, checkerboardKey, checkerboardBlanks) : cipher.decrypt(inputText);
+    } else if (selectedCipher === 'porta') {
+      result = mode === 'encrypt' ? cipher.encrypt(inputText, portaKeyword) : cipher.decrypt(inputText, portaKeyword);
+    } else {
+      result = mode === 'encrypt' ? cipher.encrypt(inputText) : cipher.decrypt(inputText);
+    }
     setOutputText(result);
-  };
-  
-  const onSelect = (cipherKey) => {
-    setSelectedCipher(cipherKey);
   };
   
   const copyToClipboard = () => {
@@ -688,20 +695,107 @@ const CipherOtto = () => {
   };
   
   const generateChallenge = () => {
-    const challenge = genChallenge();
-    setPracticeChallenge(challenge);
+    const messages = [
+      'HELLO WORLD', 'CRYPTOGRAPHY IS FUN', 'BREAK THE CODE', 'SECRET MESSAGE',
+      'OTTO THE OTTER', 'CIPHER CHALLENGE', 'LEARN TO ENCRYPT', 'HIDDEN TREASURE',
+      'SPY ACADEMY', 'CODE BREAKER', 'MATH IS COOL', 'SECURITY FIRST',
+      'PUZZLE MASTER', 'CRYPTO WIZARD', 'SECRET AGENT', 'DECODE THIS NOW'
+    ];
+    const randomMsg = messages[Math.floor(Math.random() * messages.length)];
+    const cipher = cipherAlgorithms[selectedCipher];
+    
+    let encrypted, challengeKeyword, challengeShift, challengePolybiusKey;
+    
+    // Special handling for Cryptarithm
+    if (selectedCipher === 'cryptarithm') {
+      // For cryptarithm, show the equation with numbers and ask user to provide words
+      const cryptarithmPuzzles = [
+        { equation: 'SEND + MORE = MONEY', hint: '9567 + 1085 = ?', answer: 'MONEY', fullAnswer: '10652' },
+        { equation: 'SEND + MORE = MONEY', hint: '???? + 1085 = 10652', answer: 'SEND', fullAnswer: '9567' },
+        { equation: 'SEND + MORE = MONEY', hint: '9567 + ???? = 10652', answer: 'MORE', fullAnswer: '1085' },
+        { equation: 'BASE + BALL = GAMES', hint: '7483 + 7455 = ?', answer: 'GAMES', fullAnswer: '14938', 
+          mapping: { 'B':'7', 'A':'4', 'S':'8', 'E':'3', 'L':'5', 'G':'1', 'M':'9' } },
+        { equation: 'CROSS + ROADS = DANGER', hint: '96255 + 62375 = ?', answer: 'DANGER', fullAnswer: '158630',
+          mapping: { 'C':'9', 'R':'6', 'O':'2', 'S':'5', 'A':'7', 'D':'1', 'N':'8', 'G':'3', 'E':'0' } },
+      ];
+      
+      const puzzle = cryptarithmPuzzles[Math.floor(Math.random() * cryptarithmPuzzles.length)];
+      
+      setPracticeChallenge({
+        original: puzzle.answer,
+        encrypted: puzzle.hint,
+        cipher: selectedCipher,
+        equation: puzzle.equation,
+        fullAnswer: puzzle.fullAnswer,
+        mapping: puzzle.mapping || cryptarithmCipher.letterMap
+      });
+      setUserAnswer('');
+      return;
+    }
+    
+    if (selectedCipher === 'caesar') {
+      challengeShift = Math.floor(Math.random() * 25) + 1;
+      encrypted = cipher.encrypt(randomMsg, challengeShift);
+    } else if (selectedCipher === 'affine') {
+      const validA = [5, 7, 9, 11, 15, 17, 19, 21, 23, 25];
+      const challengeA = validA[Math.floor(Math.random() * validA.length)];
+      const challengeB = Math.floor(Math.random() * 26);
+      encrypted = cipher.encrypt(randomMsg, challengeA, challengeB);
+      challengeKeyword = `a=${challengeA}, b=${challengeB}`;
+    } else if (selectedCipher === 'columnar') {
+      challengeKeyword = 'SECRET';
+      encrypted = cipher.encrypt(randomMsg, challengeKeyword);
+    } else if (selectedCipher === 'porta') {
+      challengeKeyword = 'SECRET';
+      encrypted = cipher.encrypt(randomMsg, challengeKeyword);
+    } else if (selectedCipher === 'nihilist') {
+      challengeKeyword = 'SECRET';
+      challengePolybiusKey = 'CRYPTO';
+      encrypted = cipher.encrypt(randomMsg, challengeKeyword, challengePolybiusKey);
+    } else if (selectedCipher === 'checkerboard') {
+      challengeKeyword = 'SECRET';
+      encrypted = cipher.encrypt(randomMsg, challengeKeyword, '2,6');
+    } else {
+      encrypted = cipher.encrypt(randomMsg);
+    }
+    
+    setPracticeChallenge({
+      original: randomMsg,
+      encrypted: encrypted,
+      cipher: selectedCipher,
+      keyword: challengeKeyword,
+      polybiusKey: challengePolybiusKey,
+      shift: challengeShift
+    });
     setUserAnswer('');
   };
   
   const checkAnswer = () => {
-    if (userAnswer.toUpperCase().replace(/\s/g, '') === practiceChallenge.original.replace(/\s/g, '')) {
-      const cipher = cipherAlgorithms[practiceChallenge.cipher];
-      const points = cipher.difficulty === 'beginner' ? 5 : cipher.difficulty === 'intermediate' ? 10 : 15;
-      setScore(score + points);
-      alert(`Correct! +${points} points`);
-      generateChallenge();
+    if (selectedCipher === 'cryptarithm') {
+      // For cryptarithm, check if the word matches OR if the number matches
+      const userAnswerClean = userAnswer.toUpperCase().replace(/\s/g, '');
+      const correctAnswer = practiceChallenge.original.toUpperCase().replace(/\s/g, '');
+      const correctNumber = practiceChallenge.fullAnswer;
+      
+      if (userAnswerClean === correctAnswer || userAnswerClean === correctNumber) {
+        const cipher = cipherAlgorithms[practiceChallenge.cipher];
+        const points = cipher.difficulty === 'beginner' ? 5 : cipher.difficulty === 'intermediate' ? 10 : 15;
+        setScore(score + points);
+        alert(`🎉 Correct! The answer is ${practiceChallenge.original} = ${practiceChallenge.fullAnswer}. +${points} points`);
+        generateChallenge();
+      } else {
+        alert('❌ Not quite right. Try again!');
+      }
     } else {
-      alert('Not quite right. Try again!');
+      if (userAnswer.toUpperCase().replace(/\s/g, '') === practiceChallenge.original.replace(/\s/g, '')) {
+        const cipher = cipherAlgorithms[practiceChallenge.cipher];
+        const points = cipher.difficulty === 'beginner' ? 5 : cipher.difficulty === 'intermediate' ? 10 : 15;
+        setScore(score + points);
+        alert(`🎉 Correct! +${points} points`);
+        generateChallenge();
+      } else {
+        alert('❌ Not quite right. Try again!');
+      }
     }
   };
 
@@ -710,15 +804,20 @@ const CipherOtto = () => {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-8 pt-8">
           <AnimatedOtter />
-          <h1 className="text-5xl font-bold mb-2 mt-4 bg-gradient-to-r from-cyan-400 to-pink-400 bg-clip-text text-transparent">Cipher Otto</h1>
+          <h1 className="text-5xl font-bold mb-2 mt-4 bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+            Cipher Otto
+          </h1>
           <p className="text-purple-200 text-lg">Master Cryptography with Otto!</p>
           <div className="flex items-center justify-center gap-3 mt-4 flex-wrap">
-            <div className="bg-white/10 backdrop-blur-sm rounded-full px-5 py-2 flex items-center gap-2 border border-white/20">
+            <div className="bg-white/10 backdrop-blur-sm rounded-full px-5 py-2 flex items-center gap-2 border border-white/20 shadow-lg">
               <Trophy className="w-5 h-5 text-yellow-400" />
               <span className="font-bold text-lg">{score}</span>
               <span className="text-sm text-purple-200">points</span>
             </div>
-            <button onClick={() => setShowDonateModal(true)} className="bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 rounded-full px-5 py-2 flex items-center gap-2 font-semibold transition-all shadow-lg">
+            <button 
+              onClick={() => setShowDonateModal(true)} 
+              className="bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 rounded-full px-5 py-2 flex items-center gap-2 font-semibold transition-all shadow-lg transform hover:scale-105"
+            >
               <Heart className="w-5 h-5" />
               Support Otto
             </button>
@@ -727,12 +826,18 @@ const CipherOtto = () => {
 
         <DonateModal show={showDonateModal} onClose={() => setShowDonateModal(false)} />
 
-        <div className="flex gap-2 mb-6 bg-white/10 backdrop-blur-sm rounded-xl p-1 shadow-lg">
-          <button onClick={() => setActiveTab('learn')} className={`flex-1 py-3 rounded-lg font-semibold transition-all ${activeTab === 'learn' ? 'bg-white text-purple-900 shadow-lg' : 'text-white hover:bg-white/20'}`}>
+        <div className="flex gap-2 mb-6 bg-white/10 backdrop-blur-sm rounded-xl p-1 shadow-lg border border-white/10">
+          <button 
+            onClick={() => setActiveTab('learn')} 
+            className={`flex-1 py-3 rounded-lg font-semibold transition-all ${activeTab === 'learn' ? 'bg-white text-purple-900 shadow-lg' : 'text-white hover:bg-white/20'}`}
+          >
             <BookOpen className="w-5 h-5 inline mr-2" />
             Learn
           </button>
-          <button onClick={() => setActiveTab('practice')} className={`flex-1 py-3 rounded-lg font-semibold transition-all ${activeTab === 'practice' ? 'bg-white text-purple-900 shadow-lg' : 'text-white hover:bg-white/20'}`}>
+          <button 
+            onClick={() => setActiveTab('practice')} 
+            className={`flex-1 py-3 rounded-lg font-semibold transition-all ${activeTab === 'practice' ? 'bg-white text-purple-900 shadow-lg' : 'text-white hover:bg-white/20'}`}
+          >
             <Trophy className="w-5 h-5 inline mr-2" />
             Practice
           </button>
@@ -740,10 +845,13 @@ const CipherOtto = () => {
 
         {activeTab === 'learn' && (
           <div className="space-y-6">
-            <CipherSelector selectedCipher={selectedCipher} onSelect={onSelect} />
+            <CipherSelector selectedCipher={selectedCipher} onSelect={setSelectedCipher} />
 
             <div className="bg-blue-900/30 backdrop-blur-lg rounded-xl p-5 shadow-lg border border-blue-500/30">
-              <button onClick={() => setShowCipherInfo(!showCipherInfo)} className="w-full flex items-center justify-between text-left">
+              <button 
+                onClick={() => setShowCipherInfo(!showCipherInfo)} 
+                className="w-full flex items-center justify-between text-left"
+              >
                 <div className="flex items-center gap-2">
                   <Info className="w-5 h-5 text-blue-300" />
                   <h3 className="text-lg font-bold">About {cipherAlgorithms[selectedCipher].name}</h3>
@@ -779,7 +887,7 @@ const CipherOtto = () => {
                                       const cipherKey = Object.keys(cipherAlgorithms).find(
                                         key => cipherAlgorithms[key].name === related.name
                                       );
-                                      if (cipherKey) onSelect(cipherKey);
+                                      if (cipherKey) setSelectedCipher(cipherKey);
                                     }}
                                     className="font-semibold text-blue-200 hover:text-blue-100 underline text-sm text-left"
                                   >
@@ -801,10 +909,13 @@ const CipherOtto = () => {
             </div>
 
             <div className="bg-gradient-to-br from-orange-900/40 to-yellow-900/40 backdrop-blur-lg rounded-xl p-5 shadow-lg border border-orange-500/30">
-              <button onClick={() => setShowTutorial(!showTutorial)} className="w-full flex items-center justify-between text-left">
+              <button 
+                onClick={() => setShowTutorial(!showTutorial)} 
+                className="w-full flex items-center justify-between text-left"
+              >
                 <div className="flex items-center gap-2">
                   <div className="text-2xl">🦦</div>
-                  <h3 className="text-lg font-bold text-orange-100">Tutorials by Otto</h3>
+                  <h3 className="text-lg font-bold text-orange-100">Tutorial by Otto</h3>
                 </div>
                 {showTutorial ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
               </button>
@@ -815,25 +926,88 @@ const CipherOtto = () => {
                   </div>
                   {cipherAlgorithms[selectedCipher].youtubeUrl && (
                     <div>
-                      <div className="aspect-video w-full bg-black rounded-lg overflow-hidden shadow-xl">
-                        <iframe width="100%" height="100%" src={cipherAlgorithms[selectedCipher].youtubeUrl.replace('watch?v=', 'embed/')} title={`${cipherAlgorithms[selectedCipher].name} Tutorial`} frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
-                      </div>
-                      <div className="mt-2 text-xs text-orange-200/80">
-                        <a href={cipherAlgorithms[selectedCipher].youtubeUrl} target="_blank" rel="noopener noreferrer" className="hover:text-orange-300 underline">Watch on YouTube</a>
-                      </div>
+                      {selectedCipher === 'cryptarithm' ? (
+                        <div className="bg-purple-900/30 rounded-lg p-4 border border-purple-500/30">
+                          <p className="text-purple-100 mb-3">📚 Learn more about cryptarithm puzzles:</p>
+                          <a 
+                            href={cipherAlgorithms[selectedCipher].youtubeUrl}
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            className="inline-block bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 px-6 py-3 rounded-lg font-semibold transition-all"
+                          >
+                            Visit Cryptarithm Puzzles →
+                          </a>
+                        </div>
+                      ) : (
+                        <>
+                          <div className="aspect-video w-full bg-black rounded-lg overflow-hidden shadow-xl mb-3">
+                            <iframe 
+                              width="100%" 
+                              height="100%" 
+                              src={cipherAlgorithms[selectedCipher].youtubeUrl.replace('watch?v=', 'embed/').split('&')[0].split('?')[0]} 
+                              title={`${cipherAlgorithms[selectedCipher].name} Tutorial`} 
+                              frameBorder="0" 
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                              allowFullScreen
+                            ></iframe>
+                          </div>
+                          <div className="text-xs text-orange-200/80 mb-3">
+                            <a 
+                              href={cipherAlgorithms[selectedCipher].youtubeUrl} 
+                              target="_blank" 
+                              rel="noopener noreferrer" 
+                              className="hover:text-orange-300 underline"
+                            >
+                              Watch on YouTube
+                            </a>
+                          </div>
+                          {cipherAlgorithms[selectedCipher].youtubeUrlAdvanced && (
+                            <div className="bg-blue-900/30 rounded-lg p-4 border border-blue-500/30">
+                              <p className="text-blue-100 mb-3">🎓 Advanced Tutorial:</p>
+                              <div className="aspect-video w-full bg-black rounded-lg overflow-hidden shadow-xl mb-2">
+                                <iframe 
+                                  width="100%" 
+                                  height="100%" 
+                                  src={cipherAlgorithms[selectedCipher].youtubeUrlAdvanced.replace('watch?v=', 'embed/').split('&')[0].split('?')[0]} 
+                                  title={`${cipherAlgorithms[selectedCipher].name} Advanced Tutorial`} 
+                                  frameBorder="0" 
+                                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                  allowFullScreen
+                                ></iframe>
+                              </div>
+                              <div className="text-xs text-blue-200/80">
+                                <a 
+                                  href={cipherAlgorithms[selectedCipher].youtubeUrlAdvanced} 
+                                  target="_blank" 
+                                  rel="noopener noreferrer" 
+                                  className="hover:text-blue-300 underline"
+                                >
+                                  Watch Advanced Tutorial on YouTube
+                                </a>
+                              </div>
+                            </div>
+                          )}
+                        </>
+                      )}
                     </div>
                   )}
                 </div>
               )}
             </div>
 
-            <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 shadow-lg">
+            <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 shadow-lg border border-white/10">
               <div className="flex gap-2 mb-4">
-                <button onClick={() => setMode('encrypt')} className={`flex-1 py-3 rounded-lg font-semibold flex items-center justify-center gap-2 ${mode === 'encrypt' ? 'bg-green-500 text-white' : 'bg-white/20'}`}>
+                <button 
+                  onClick={() => setMode('encrypt')} 
+                  className={`flex-1 py-3 rounded-lg font-semibold flex items-center justify-center gap-2 transition-all ${mode === 'encrypt' ? 'bg-green-500 text-white shadow-lg' : 'bg-white/20 hover:bg-white/30'}`}
+                >
                   <Lock className="w-5 h-5" />
                   Encrypt
                 </button>
-                <button onClick={() => setMode('decrypt')} className={`flex-1 py-3 rounded-lg font-semibold flex items-center justify-center gap-2 ${mode === 'decrypt' ? 'bg-blue-500 text-white' : 'bg-white/20'}`}>
+                <button 
+                  onClick={() => setMode('decrypt')} 
+                  className={`flex-1 py-3 rounded-lg font-semibold flex items-center justify-center gap-2 transition-all ${mode === 'decrypt' ? 'bg-blue-500 text-white shadow-lg' : 'bg-white/20 hover:bg-white/30'}`}
+                >
                   <Unlock className="w-5 h-5" />
                   Decrypt
                 </button>
@@ -842,19 +1016,36 @@ const CipherOtto = () => {
               {selectedCipher === 'caesar' && (
                 <div className="mb-4 p-4 bg-purple-900/30 rounded-lg border-2 border-purple-500/30">
                   <label className="text-sm font-bold text-purple-200 block mb-2">Shift (0-25):</label>
-                  <input type="number" min="0" max="25" value={caesarShift} onChange={(e) => setCaesarShift(parseInt(e.target.value) || 0)} className="w-full p-3 rounded-lg bg-white/20 border-2 border-white/30 text-white" />
+                  <input 
+                    type="number" 
+                    min="0" 
+                    max="25" 
+                    value={caesarShift} 
+                    onChange={(e) => setCaesarShift(parseInt(e.target.value) || 0)} 
+                    className="w-full p-3 rounded-lg bg-white/20 border-2 border-white/30 text-white focus:outline-none focus:border-purple-400" 
+                  />
                 </div>
               )}
 
               {selectedCipher === 'affine' && (
                 <div className="mb-4 p-4 bg-purple-900/30 rounded-lg border-2 border-purple-500/30 space-y-3">
                   <div>
-                    <label className="text-xs text-purple-200 block mb-1">Value a:</label>
-                    <input type="number" value={affineA} onChange={(e) => setAffineA(parseInt(e.target.value) || 5)} className="w-full p-3 rounded-lg bg-white/20 border-2 border-white/30 text-white" />
+                    <label className="text-xs text-purple-200 block mb-1">Value a (must be coprime with 26):</label>
+                    <input 
+                      type="number" 
+                      value={affineA} 
+                      onChange={(e) => setAffineA(parseInt(e.target.value) || 5)} 
+                      className="w-full p-3 rounded-lg bg-white/20 border-2 border-white/30 text-white focus:outline-none focus:border-purple-400" 
+                    />
                   </div>
                   <div>
-                    <label className="text-xs text-purple-200 block mb-1">Value b:</label>
-                    <input type="number" value={affineB} onChange={(e) => setAffineB(parseInt(e.target.value) || 8)} className="w-full p-3 rounded-lg bg-white/20 border-2 border-white/30 text-white" />
+                    <label className="text-xs text-purple-200 block mb-1">Value b (0-25):</label>
+                    <input 
+                      type="number" 
+                      value={affineB} 
+                      onChange={(e) => setAffineB(parseInt(e.target.value) || 8)} 
+                      className="w-full p-3 rounded-lg bg-white/20 border-2 border-white/30 text-white focus:outline-none focus:border-purple-400" 
+                    />
                   </div>
                 </div>
               )}
@@ -863,11 +1054,21 @@ const CipherOtto = () => {
                 <div className="mb-4 space-y-3 p-4 bg-purple-900/30 rounded-lg border-2 border-purple-500/30">
                   <div>
                     <label className="text-xs text-purple-200 block mb-1">Keyword:</label>
-                    <input type="text" value={nihilistKeyword} onChange={(e) => setNihilistKeyword(e.target.value.toUpperCase())} className="w-full p-3 rounded-lg bg-white/20 border-2 border-white/30 text-white" />
+                    <input 
+                      type="text" 
+                      value={nihilistKeyword} 
+                      onChange={(e) => setNihilistKeyword(e.target.value.toUpperCase())} 
+                      className="w-full p-3 rounded-lg bg-white/20 border-2 border-white/30 text-white focus:outline-none focus:border-purple-400" 
+                    />
                   </div>
                   <div>
                     <label className="text-xs text-purple-200 block mb-1">Polybius Key:</label>
-                    <input type="text" value={nihilistPolybiusKey} onChange={(e) => setNihilistPolybiusKey(e.target.value.toUpperCase())} className="w-full p-3 rounded-lg bg-white/20 border-2 border-white/30 text-white" />
+                    <input 
+                      type="text" 
+                      value={nihilistPolybiusKey} 
+                      onChange={(e) => setNihilistPolybiusKey(e.target.value.toUpperCase())} 
+                      className="w-full p-3 rounded-lg bg-white/20 border-2 border-white/30 text-white focus:outline-none focus:border-purple-400" 
+                    />
                   </div>
                 </div>
               )}
@@ -875,7 +1076,12 @@ const CipherOtto = () => {
               {selectedCipher === 'columnar' && (
                 <div className="mb-4 p-4 bg-purple-900/30 rounded-lg border-2 border-purple-500/30">
                   <label className="text-sm font-bold text-purple-200 block mb-2">Keyword:</label>
-                  <input type="text" value={columnarKeyword} onChange={(e) => setColumnarKeyword(e.target.value.toUpperCase())} className="w-full p-3 rounded-lg bg-white/20 border-2 border-white/30 text-white" />
+                  <input 
+                    type="text" 
+                    value={columnarKeyword} 
+                    onChange={(e) => setColumnarKeyword(e.target.value.toUpperCase())} 
+                    className="w-full p-3 rounded-lg bg-white/20 border-2 border-white/30 text-white focus:outline-none focus:border-purple-400" 
+                  />
                 </div>
               )}
 
@@ -883,27 +1089,83 @@ const CipherOtto = () => {
                 <div className="mb-4 space-y-3 p-4 bg-purple-900/30 rounded-lg border-2 border-purple-500/30">
                   <div>
                     <label className="text-xs text-purple-200 block mb-1">Key:</label>
-                    <input type="text" value={checkerboardKey} onChange={(e) => setCheckerboardKey(e.target.value.toUpperCase())} className="w-full p-3 rounded-lg bg-white/20 border-2 border-white/30 text-white" />
+                    <input 
+                      type="text" 
+                      value={checkerboardKey} 
+                      onChange={(e) => setCheckerboardKey(e.target.value.toUpperCase())} 
+                      className="w-full p-3 rounded-lg bg-white/20 border-2 border-white/30 text-white focus:outline-none focus:border-purple-400" 
+                    />
                   </div>
                   <div>
-                    <label className="text-xs text-purple-200 block mb-1">Blanks:</label>
-                    <input type="text" value={checkerboardBlanks} onChange={(e) => setCheckerboardBlanks(e.target.value)} className="w-full p-3 rounded-lg bg-white/20 border-2 border-white/30 text-white" />
+                    <label className="text-xs text-purple-200 block mb-1">Blank positions (comma-separated):</label>
+                    <input 
+                      type="text" 
+                      value={checkerboardBlanks} 
+                      onChange={(e) => setCheckerboardBlanks(e.target.value)} 
+                      className="w-full p-3 rounded-lg bg-white/20 border-2 border-white/30 text-white focus:outline-none focus:border-purple-400" 
+                    />
                   </div>
                 </div>
               )}
 
-              <textarea value={inputText} onChange={(e) => setInputText(e.target.value)} placeholder="Enter your message..." rows={4} className="w-full p-4 rounded-lg bg-white/20 border-2 border-white/30 text-white placeholder-white/50 mb-4 resize-none"></textarea>
+              {selectedCipher === 'porta' && (
+                <div className="mb-4 p-4 bg-purple-900/30 rounded-lg border-2 border-purple-500/30">
+                  <label className="text-sm font-bold text-purple-200 block mb-2">Keyword:</label>
+                  <input 
+                    type="text" 
+                    value={portaKeyword} 
+                    onChange={(e) => setPortaKeyword(e.target.value.toUpperCase())} 
+                    className="w-full p-3 rounded-lg bg-white/20 border-2 border-white/30 text-white focus:outline-none focus:border-purple-400" 
+                  />
+                </div>
+              )}
 
-              <button onClick={processCipher} className="w-full bg-gradient-to-r from-purple-500 to-pink-500 py-4 rounded-lg font-bold hover:from-purple-600 hover:to-pink-600">
-                {mode === 'encrypt' ? 'Encrypt' : 'Decrypt'}
+              {selectedCipher === 'cryptarithm' && (
+                <div className="mb-4 p-4 bg-gradient-to-r from-purple-900/40 to-pink-900/40 rounded-lg border-2 border-purple-500/30">
+                  <div className="text-center mb-3">
+                    <div className="text-2xl font-bold text-yellow-300 mb-2">🧩 SEND + MORE = MONEY</div>
+                    <div className="text-sm text-purple-200 mb-2">Letter-to-Digit Mapping:</div>
+                    <div className="grid grid-cols-4 gap-2 text-xs bg-black/20 p-3 rounded-lg">
+                      <div className="bg-purple-600/30 p-2 rounded"><span className="font-bold">S</span> = 9</div>
+                      <div className="bg-purple-600/30 p-2 rounded"><span className="font-bold">E</span> = 5</div>
+                      <div className="bg-purple-600/30 p-2 rounded"><span className="font-bold">N</span> = 6</div>
+                      <div className="bg-purple-600/30 p-2 rounded"><span className="font-bold">D</span> = 7</div>
+                      <div className="bg-pink-600/30 p-2 rounded"><span className="font-bold">M</span> = 1</div>
+                      <div className="bg-pink-600/30 p-2 rounded"><span className="font-bold">O</span> = 0</div>
+                      <div className="bg-pink-600/30 p-2 rounded"><span className="font-bold">R</span> = 8</div>
+                      <div className="bg-pink-600/30 p-2 rounded"><span className="font-bold">Y</span> = 2</div>
+                    </div>
+                    <div className="mt-3 text-sm text-purple-200">
+                      Try: "SEND + MORE" or "9567 + 1085"
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              <textarea 
+                value={inputText} 
+                onChange={(e) => setInputText(e.target.value)} 
+                placeholder="Enter your message..." 
+                rows={4} 
+                className="w-full p-4 rounded-lg bg-white/20 border-2 border-white/30 text-white placeholder-white/50 mb-4 resize-none focus:outline-none focus:border-purple-400"
+              ></textarea>
+
+              <button 
+                onClick={processCipher} 
+                className="w-full bg-gradient-to-r from-purple-500 to-pink-500 py-4 rounded-lg font-bold hover:from-purple-600 hover:to-pink-600 transition-all shadow-lg transform hover:scale-105"
+              >
+                {mode === 'encrypt' ? '🔒 Encrypt Message' : '🔓 Decrypt Message'}
               </button>
 
               {outputText && (
-                <div className="mt-4 p-4 bg-white/20 rounded-lg">
+                <div className="mt-4 p-4 bg-white/20 rounded-lg border border-white/20">
                   <div className="flex items-center justify-between mb-2">
                     <div className="text-sm text-purple-200 font-semibold">Result:</div>
-                    <button onClick={copyToClipboard} className="flex items-center gap-1 px-3 py-1 bg-white/10 hover:bg-white/20 rounded-lg text-sm">
-                      {copied ? <><Check className="w-4 h-4" />Copied</> : <><Copy className="w-4 h-4" />Copy</>}
+                    <button 
+                      onClick={copyToClipboard} 
+                      className="flex items-center gap-1 px-3 py-1 bg-white/10 hover:bg-white/20 rounded-lg text-sm transition-all"
+                    >
+                      {copied ? <><Check className="w-4 h-4" />Copied!</> : <><Copy className="w-4 h-4" />Copy</>}
                     </button>
                   </div>
                   <div className="font-mono text-lg break-all bg-black/20 p-3 rounded">{outputText}</div>
@@ -914,7 +1176,7 @@ const CipherOtto = () => {
         )}
 
         {activeTab === 'practice' && (
-          <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 shadow-lg">
+          <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 shadow-lg border border-white/10">
             <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
               <Trophy className="w-6 h-6 text-yellow-400" />
               Practice Mode
@@ -923,49 +1185,99 @@ const CipherOtto = () => {
               <div className="text-center py-8">
                 <div className="mb-4 animate-bounce"><AnimatedOtter /></div>
                 <p className="mb-2 text-xl font-bold">Otto wants to practice!</p>
+                <p className="mb-6 text-purple-200">Select a cipher and start your challenge</p>
                 <div className="mb-6">
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-2 max-w-2xl mx-auto mb-4">
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 max-w-3xl mx-auto mb-4">
                     {Object.keys(cipherAlgorithms).map(key => (
-                      <button key={key} onClick={() => setSelectedCipher(key)} className={`p-3 rounded-lg text-sm ${selectedCipher === key ? 'bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900 font-bold' : 'bg-white/10 hover:bg-white/20'}`}>
-                        {cipherAlgorithms[key].name} {getDifficultyBadge(cipherAlgorithms[key].difficulty)}
+                      <button 
+                        key={key} 
+                        onClick={() => setSelectedCipher(key)} 
+                        className={`p-3 rounded-lg text-sm transition-all transform hover:scale-105 ${selectedCipher === key ? 'bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900 font-bold shadow-lg' : 'bg-white/10 hover:bg-white/20'}`}
+                      >
+                        <div className="flex flex-col items-center gap-1">
+                          <span>{cipherAlgorithms[key].name}</span>
+                          <span>{getDifficultyBadge(cipherAlgorithms[key].difficulty)}</span>
+                        </div>
                       </button>
                     ))}
                   </div>
                 </div>
-                <button onClick={generateChallenge} className="bg-gradient-to-r from-green-500 to-teal-500 px-8 py-4 rounded-lg font-bold">
+                <button 
+                  onClick={generateChallenge} 
+                  className="bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 px-8 py-4 rounded-lg font-bold shadow-lg transform hover:scale-105 transition-all"
+                >
+                  <Star className="w-5 h-5 inline mr-2" />
                   Start Challenge
                 </button>
               </div>
             ) : (
               <div>
-                <div className="bg-purple-900/50 p-4 rounded-lg mb-4">
+                <div className="bg-purple-900/50 p-4 rounded-lg mb-4 border border-purple-500/30">
                   <div className="text-sm text-purple-200 mb-2">
                     Cipher: <span className="font-bold text-yellow-300">{cipherAlgorithms[practiceChallenge.cipher].name}</span> {getDifficultyBadge(cipherAlgorithms[practiceChallenge.cipher].difficulty)}
                   </div>
-                  <div className="font-mono text-xl mb-3 break-all bg-black/30 p-3 rounded">{practiceChallenge.encrypted}</div>
-                  {practiceChallenge.shift && <div className="text-sm">Hint: Shift = {practiceChallenge.shift}</div>}
-                  {practiceChallenge.keyword && <div className="text-sm">Keyword: {practiceChallenge.keyword}</div>}
-                  {practiceChallenge.polybiusKey && <div className="text-sm">Polybius Key: {practiceChallenge.polybiusKey}</div>}
+                  
+                  {practiceChallenge.cipher === 'cryptarithm' ? (
+                    <div>
+                      <div className="text-center mb-4">
+                        <div className="text-2xl font-bold text-yellow-300 mb-3">🧩 {practiceChallenge.equation}</div>
+                        <div className="bg-gradient-to-r from-blue-900/40 to-purple-900/40 p-4 rounded-lg border-2 border-blue-400/30">
+                          <div className="text-lg font-mono mb-2 text-blue-100">Given:</div>
+                          <div className="text-3xl font-bold font-mono text-white mb-3">{practiceChallenge.encrypted}</div>
+                          <div className="text-sm text-purple-200">What is the missing word or number?</div>
+                        </div>
+                      </div>
+                      
+                      <div className="bg-black/20 p-3 rounded-lg mb-3">
+                        <div className="text-xs text-purple-200 mb-2">💡 Letter-to-Digit Mapping:</div>
+                        <div className="grid grid-cols-4 gap-1 text-xs">
+                          {Object.entries(practiceChallenge.mapping).map(([letter, digit]) => (
+                            <div key={letter} className="bg-purple-600/30 p-1 rounded text-center">
+                              <span className="font-bold">{letter}</span> = {digit}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div>
+                      <div className="font-mono text-xl mb-3 break-all bg-black/30 p-3 rounded">{practiceChallenge.encrypted}</div>
+                      {practiceChallenge.shift && <div className="text-sm text-purple-200">💡 Hint: Shift = {practiceChallenge.shift}</div>}
+                      {practiceChallenge.keyword && <div className="text-sm text-purple-200">💡 Keyword: {practiceChallenge.keyword}</div>}
+                      {practiceChallenge.polybiusKey && <div className="text-sm text-purple-200">💡 Polybius Key: {practiceChallenge.polybiusKey}</div>}
+                    </div>
+                  )}
                 </div>
                 <input 
                   type="text" 
                   value={userAnswer} 
                   onChange={(e) => setUserAnswer(e.target.value)} 
-                  placeholder="Enter answer..." 
-                  className="w-full p-4 rounded-lg bg-white/20 border-2 border-white/30 text-white placeholder-white/50 mb-4" 
+                  placeholder={practiceChallenge.cipher === 'cryptarithm' ? "Enter the missing word or number..." : "Enter your answer..."} 
+                  className="w-full p-4 rounded-lg bg-white/20 border-2 border-white/30 text-white placeholder-white/50 mb-4 focus:outline-none focus:border-purple-400" 
                 />
                 <div className="flex gap-2">
-                  <button onClick={checkAnswer} className="flex-1 bg-gradient-to-r from-green-500 to-teal-500 py-3 rounded-lg font-bold">
-                    Check
+                  <button 
+                    onClick={checkAnswer} 
+                    className="flex-1 bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 py-3 rounded-lg font-bold transition-all shadow-lg"
+                  >
+                    ✓ Check Answer
                   </button>
-                  <button onClick={generateChallenge} className="bg-white/20 px-6 py-3 rounded-lg font-bold">
-                    Skip
+                  <button 
+                    onClick={generateChallenge} 
+                    className="bg-white/20 hover:bg-white/30 px-6 py-3 rounded-lg font-bold transition-all"
+                  >
+                    Skip →
                   </button>
                 </div>
               </div>
             )}
           </div>
         )}
+
+        <div className="mt-8 text-center text-purple-200 text-sm pb-8">
+          <p>Made with 💜 by Otto the Otter</p>
+          <p className="mt-2">Learn cryptography the fun way!</p>
+        </div>
       </div>
     </div>
   );
