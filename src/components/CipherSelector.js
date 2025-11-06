@@ -1,23 +1,27 @@
 import React from 'react';
 import { Sparkles } from 'lucide-react';
 import { cipherAlgorithms } from '../ciphers';
-import { getDifficultyColor, getDifficultyBadge } from '../utils/helpers';
+import { getDifficultyColor, getDifficultyBadge, getCompetitionColor } from '../utils/helpers';
 
 /**
  * CipherSelector Component - Displays all available ciphers for selection
  * @param {string} selectedCipher - Currently selected cipher key
  * @param {Function} onSelect - Callback when cipher is selected
- * @param {boolean} showDivisionC - Whether to show Division C ciphers
+ * @param {string} activeFilterType - Active filter type: 'competition', 'difficulty', 'historical'
+ * @param {string} competitionLevelFilter - Competition level filter: 'all', 'divisionA', 'divisionB', 'divisionC', 'open'
+ * @param {string} difficultyFilter - Difficulty level filter: 'all', 'beginner', 'intermediate', 'advanced'
+ * @param {string} historicalPeriodFilter - Historical period filter: 'all', 'ancient', 'medieval', 'renaissance', 'modern', 'contemporary'
  */
-const CipherSelector = ({ selectedCipher, onSelect, showDivisionC = false }) => {
-  // Division C related ciphers (last 9 ciphers added)
-  const divisionCCiphers = ['railfence', 'pollux', 'morbit', 'vigenere', 'rsa', 'aristocratMisspelled', 'dancingMen', 'hill2x2', 'hill3x3'];
-  
-  // Filter ciphers based on Division C toggle
+const CipherSelector = ({ selectedCipher, onSelect, activeFilterType = 'competition', competitionLevelFilter = 'all', difficultyFilter = 'all', historicalPeriodFilter = 'all' }) => {
+  // Filter ciphers based on active filter type
   const availableCiphers = Object.keys(cipherAlgorithms).filter(key => {
-    // If Division C is not shown, exclude Division C ciphers
-    if (!showDivisionC && divisionCCiphers.includes(key)) {
-      return false;
+    const cipher = cipherAlgorithms[key];
+    if (activeFilterType === 'competition') {
+      return competitionLevelFilter === 'all' || cipher.competitionLevel === competitionLevelFilter;
+    } else if (activeFilterType === 'difficulty') {
+      return difficultyFilter === 'all' || cipher.difficulty === difficultyFilter;
+    } else if (activeFilterType === 'historical') {
+      return historicalPeriodFilter === 'all' || cipher.historicalPeriod === historicalPeriodFilter;
     }
     return true;
   });
@@ -30,7 +34,7 @@ const CipherSelector = ({ selectedCipher, onSelect, showDivisionC = false }) => 
       </h2>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
         {availableCiphers.map(key => {
-          const isDivisionC = divisionCCiphers.includes(key);
+          const cipher = cipherAlgorithms[key];
           return (
             <button 
               key={key} 
@@ -38,16 +42,23 @@ const CipherSelector = ({ selectedCipher, onSelect, showDivisionC = false }) => 
               className={`p-4 rounded-xl text-sm transition-all transform hover:scale-105 ${
                 selectedCipher === key 
                   ? 'bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900 font-bold shadow-lg scale-105' 
-                  : isDivisionC 
-                    ? 'bg-gray-800/50 hover:bg-gray-700/60 border border-gray-600/50' 
-                    : 'bg-white/10 hover:bg-white/20'
+                  : 'bg-white/10 hover:bg-white/20'
               }`}
             >
               <div className="flex flex-col items-center gap-2">
-                <span className="text-center">{cipherAlgorithms[key].name}</span>
-                <span className={`${selectedCipher === key ? 'text-gray-900' : getDifficultyColor(cipherAlgorithms[key].difficulty)}`}>
-                  {getDifficultyBadge(cipherAlgorithms[key].difficulty)}
-                </span>
+                <span className="text-center">{cipher.name}</span>
+                <div className="flex items-center gap-1">
+                  <span className={`${selectedCipher === key ? 'text-gray-900' : getDifficultyColor(cipher.difficulty)}`}>
+                    {getDifficultyBadge(cipher.difficulty)}
+                  </span>
+                  {cipher.competitionLevel && (
+                    <span className={`text-xs ${selectedCipher === key ? 'text-gray-700' : getCompetitionColor(cipher.competitionLevel)}`}>
+                      {cipher.competitionLevel === 'divisionA' ? '🥉' : 
+                       cipher.competitionLevel === 'divisionB' ? '🥈' : 
+                       cipher.competitionLevel === 'divisionC' ? '🥇' : '🏆'}
+                    </span>
+                  )}
+                </div>
               </div>
             </button>
           );

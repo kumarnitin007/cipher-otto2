@@ -6,7 +6,7 @@ import AnimatedOtter from './components/AnimatedOtter';
 import DonateModal from './components/DonateModal';
 import CipherSelector from './components/CipherSelector';
 import { cipherAlgorithms } from './ciphers';
-import { categories, getDifficultyColor, getDifficultyBadge } from './utils/helpers';
+import { categories, getDifficultyColor, getDifficultyBadge, competitionLevels, getCompetitionColor, getCompetitionBadge, difficultyLevels, historicalPeriods, getHistoricalPeriodColor } from './utils/helpers';
 
 // ============================================================================
 // Main App Component
@@ -79,17 +79,60 @@ const CipherOtto = () => {
   const [showCipherInfo, setShowCipherInfo] = useState(false); // Cipher info panel expanded state
   const [showTutorial, setShowTutorial] = useState(false); // Tutorial panel expanded state
   const [showNotes, setShowNotes] = useState(false); // Expert & Otto's Notes panel expanded state
-  const [showDivisionC, setShowDivisionC] = useState(false); // Show Division C related ciphers toggle
+  const [activeFilterType, setActiveFilterType] = useState('competition'); // Active filter type: 'competition', 'difficulty', 'historical'
+  const [competitionLevelFilter, setCompetitionLevelFilter] = useState('divisionB'); // Competition level filter: 'all', 'divisionA', 'divisionB', 'divisionC', 'open'
+  const [difficultyFilter, setDifficultyFilter] = useState('all'); // Difficulty level filter: 'all', 'beginner', 'intermediate', 'advanced'
+  const [historicalPeriodFilter, setHistoricalPeriodFilter] = useState('all'); // Historical period filter: 'all', 'ancient', 'medieval', 'renaissance', 'modern', 'contemporary'
   
-  // Division C related ciphers (last 9 ciphers added)
-  const divisionCCiphers = ['railfence', 'pollux', 'morbit', 'vigenere', 'rsa', 'aristocratMisspelled', 'dancingMen', 'hill2x2', 'hill3x3'];
-  
-  // If selected cipher is a Division C cipher and toggle is off, reset to default
-  useEffect(() => {
-    if (!showDivisionC && divisionCCiphers.includes(selectedCipher)) {
-      setSelectedCipher('caesar');
+  // When switching filter types, reset other filters to 'all'
+  const handleFilterTypeChange = (newFilterType) => {
+    setActiveFilterType(newFilterType);
+    if (newFilterType !== 'competition') {
+      setCompetitionLevelFilter('all');
     }
-  }, [showDivisionC, selectedCipher]);
+    if (newFilterType !== 'difficulty') {
+      setDifficultyFilter('all');
+    }
+    if (newFilterType !== 'historical') {
+      setHistoricalPeriodFilter('all');
+    }
+  };
+  
+  // If selected cipher doesn't match the active filter, reset to default
+  useEffect(() => {
+    const currentCipher = cipherAlgorithms[selectedCipher];
+    if (!currentCipher) return;
+    
+    // Check if current cipher matches the active filter
+    let matchesFilter = true;
+    if (activeFilterType === 'competition') {
+      matchesFilter = competitionLevelFilter === 'all' || currentCipher.competitionLevel === competitionLevelFilter;
+    } else if (activeFilterType === 'difficulty') {
+      matchesFilter = difficultyFilter === 'all' || currentCipher.difficulty === difficultyFilter;
+    } else if (activeFilterType === 'historical') {
+      matchesFilter = historicalPeriodFilter === 'all' || currentCipher.historicalPeriod === historicalPeriodFilter;
+    }
+    
+    if (!matchesFilter) {
+      // Find first cipher that matches the active filter
+      const matchingCipher = Object.keys(cipherAlgorithms).find(key => {
+        const cipher = cipherAlgorithms[key];
+        if (activeFilterType === 'competition') {
+          return competitionLevelFilter === 'all' || cipher.competitionLevel === competitionLevelFilter;
+        } else if (activeFilterType === 'difficulty') {
+          return difficultyFilter === 'all' || cipher.difficulty === difficultyFilter;
+        } else if (activeFilterType === 'historical') {
+          return historicalPeriodFilter === 'all' || cipher.historicalPeriod === historicalPeriodFilter;
+        }
+        return true;
+      });
+      if (matchingCipher) {
+        setSelectedCipher(matchingCipher);
+      } else {
+        setSelectedCipher('caesar');
+      }
+    }
+  }, [activeFilterType, competitionLevelFilter, difficultyFilter, historicalPeriodFilter, selectedCipher]);
   
   /**
    * Otto's Kid-Friendly Learning Notes for Each Cipher
@@ -845,26 +888,163 @@ More math = more security! 🦦✨`
 
         <DonateModal show={showDonateModal} onClose={() => setShowDonateModal(false)} />
 
-        {/* Division C Ciphers Toggle */}
-        <div className="mb-4 bg-gradient-to-r from-blue-900/40 to-purple-900/40 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-blue-500/30">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="text-2xl">🏆</div>
-              <div>
-                <div className="font-bold text-lg text-blue-100">Show Division C Related Ciphers</div>
-                <div className="text-xs text-blue-200/80 mt-1">Enable to show advanced ciphers: Rail Fence, Pollux, Morbit, Vigenère, RSA, Aristocrat Misspelled, Dancing Men, Hill 2x2, Hill 3x3</div>
+        {/* Combined Filter Box */}
+        <div className="mb-4 bg-gradient-to-r from-indigo-900/40 to-purple-900/40 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-indigo-500/30">
+          {/* Filter Type Selector Row */}
+          <div className="mb-4">
+            <div className="flex items-center gap-2 mb-3">
+              <div className="text-xl">
+                {activeFilterType === 'competition' && '🏅'}
+                {activeFilterType === 'difficulty' && '⭐'}
+                {activeFilterType === 'historical' && '📜'}
+              </div>
+              <div className="font-bold text-sm text-indigo-100">
+                Filter By: {activeFilterType === 'competition' && 'Competition Level Filter'}
+                {activeFilterType === 'difficulty' && 'Difficulty Level Filter'}
+                {activeFilterType === 'historical' && 'Historical Period Filter'}
               </div>
             </div>
-            <label className="relative inline-flex items-center cursor-pointer">
-              <input
-                type="checkbox"
-                checked={showDivisionC}
-                onChange={(e) => setShowDivisionC(e.target.checked)}
-                className="sr-only peer"
-              />
-              <div className="w-14 h-7 bg-gray-600 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300/30 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-gradient-to-r peer-checked:from-blue-500 peer-checked:to-purple-500"></div>
-            </label>
+            <div className="flex gap-2">
+              <button
+                onClick={() => handleFilterTypeChange('competition')}
+                className={`px-4 py-2 rounded-lg font-semibold text-sm transition-all transform hover:scale-105 flex items-center gap-2 ${
+                  activeFilterType === 'competition'
+                    ? 'bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900 shadow-lg'
+                    : 'bg-white/10 hover:bg-white/20 text-white'
+                }`}
+              >
+                <span>🏅</span>
+                <span>Competition</span>
+              </button>
+              <button
+                onClick={() => handleFilterTypeChange('difficulty')}
+                className={`px-4 py-2 rounded-lg font-semibold text-sm transition-all transform hover:scale-105 flex items-center gap-2 ${
+                  activeFilterType === 'difficulty'
+                    ? 'bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900 shadow-lg'
+                    : 'bg-white/10 hover:bg-white/20 text-white'
+                }`}
+              >
+                <span>⭐</span>
+                <span>Difficulty</span>
+              </button>
+              <button
+                onClick={() => handleFilterTypeChange('historical')}
+                className={`px-4 py-2 rounded-lg font-semibold text-sm transition-all transform hover:scale-105 flex items-center gap-2 ${
+                  activeFilterType === 'historical'
+                    ? 'bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900 shadow-lg'
+                    : 'bg-white/10 hover:bg-white/20 text-white'
+                }`}
+              >
+                <span>📜</span>
+                <span>Historical</span>
+              </button>
+            </div>
           </div>
+
+          {/* Competition Level Filter Row */}
+          {activeFilterType === 'competition' && (
+            <div className="border-t border-indigo-500/30 pt-4">
+              <div className="flex flex-wrap gap-2">
+                <button
+                  onClick={() => setCompetitionLevelFilter('all')}
+                  className={`px-4 py-2 rounded-lg font-semibold transition-all transform hover:scale-105 ${
+                    competitionLevelFilter === 'all'
+                      ? 'bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900 shadow-lg'
+                      : 'bg-white/10 hover:bg-white/20 text-white'
+                  }`}
+                >
+                  All Ciphers
+                </button>
+                {Object.entries(competitionLevels).map(([key, level]) => (
+                  <button
+                    key={key}
+                    onClick={() => setCompetitionLevelFilter(key)}
+                    className={`px-4 py-2 rounded-lg font-semibold transition-all transform hover:scale-105 flex items-center gap-2 ${
+                      competitionLevelFilter === key
+                        ? 'bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900 shadow-lg'
+                        : `bg-white/10 hover:bg-white/20 ${getCompetitionColor(key)}`
+                    }`}
+                  >
+                    <span>{level.icon}</span>
+                    <span>{level.name}</span>
+                  </button>
+                ))}
+              </div>
+              <div className="text-xs text-blue-200/80 mt-2">
+                Filter ciphers by competition difficulty level. Perfect for students preparing for cryptography competitions!
+              </div>
+            </div>
+          )}
+
+          {/* Difficulty Level Filter Row */}
+          {activeFilterType === 'difficulty' && (
+            <div className="border-t border-indigo-500/30 pt-4">
+              <div className="flex flex-wrap gap-2">
+                <button
+                  onClick={() => setDifficultyFilter('all')}
+                  className={`px-4 py-2 rounded-lg font-semibold transition-all transform hover:scale-105 ${
+                    difficultyFilter === 'all'
+                      ? 'bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900 shadow-lg'
+                      : 'bg-white/10 hover:bg-white/20 text-white'
+                  }`}
+                >
+                  All Levels
+                </button>
+                {Object.entries(difficultyLevels).map(([key, level]) => (
+                  <button
+                    key={key}
+                    onClick={() => setDifficultyFilter(key)}
+                    className={`px-4 py-2 rounded-lg font-semibold transition-all transform hover:scale-105 flex items-center gap-2 ${
+                      difficultyFilter === key
+                        ? 'bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900 shadow-lg'
+                        : `bg-white/10 hover:bg-white/20 ${getDifficultyColor(key)}`
+                    }`}
+                  >
+                    <span>{level.icon}</span>
+                    <span>{level.name}</span>
+                  </button>
+                ))}
+              </div>
+              <div className="text-xs text-green-200/80 mt-2">
+                Filter ciphers by difficulty level. Start with Beginner and work your way up!
+              </div>
+            </div>
+          )}
+
+          {/* Historical Period Filter Row */}
+          {activeFilterType === 'historical' && (
+            <div className="border-t border-indigo-500/30 pt-4">
+              <div className="flex flex-wrap gap-2">
+                <button
+                  onClick={() => setHistoricalPeriodFilter('all')}
+                  className={`px-4 py-2 rounded-lg font-semibold transition-all transform hover:scale-105 ${
+                    historicalPeriodFilter === 'all'
+                      ? 'bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900 shadow-lg'
+                      : 'bg-white/10 hover:bg-white/20 text-white'
+                  }`}
+                >
+                  All Periods
+                </button>
+                {Object.entries(historicalPeriods).map(([key, period]) => (
+                  <button
+                    key={key}
+                    onClick={() => setHistoricalPeriodFilter(key)}
+                    className={`px-4 py-2 rounded-lg font-semibold transition-all transform hover:scale-105 flex items-center gap-2 ${
+                      historicalPeriodFilter === key
+                        ? 'bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900 shadow-lg'
+                        : `bg-white/10 hover:bg-white/20 ${getHistoricalPeriodColor(key)}`
+                    }`}
+                  >
+                    <span>{period.icon}</span>
+                    <span>{period.name}</span>
+                  </button>
+                ))}
+              </div>
+              <div className="text-xs text-amber-200/80 mt-2">
+                Filter ciphers by historical period. Learn about the evolution of cryptography through the ages!
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="flex gap-2 mb-6 bg-white/10 backdrop-blur-sm rounded-xl p-1 shadow-lg border border-white/10">
@@ -886,7 +1066,14 @@ More math = more security! 🦦✨`
 
         {activeTab === 'learn' && (
           <div className="space-y-6">
-            <CipherSelector selectedCipher={selectedCipher} onSelect={setSelectedCipher} showDivisionC={showDivisionC} />
+            <CipherSelector 
+              selectedCipher={selectedCipher} 
+              onSelect={setSelectedCipher} 
+              activeFilterType={activeFilterType}
+              competitionLevelFilter={competitionLevelFilter}
+              difficultyFilter={difficultyFilter}
+              historicalPeriodFilter={historicalPeriodFilter}
+            />
 
             <div className="bg-blue-900/30 backdrop-blur-lg rounded-xl p-5 shadow-lg border border-blue-500/30">
               <button 
@@ -1043,7 +1230,7 @@ More math = more security! 🦦✨`
               >
                   <div className="flex items-center gap-2">
                   <div className="text-2xl">👩‍🎓🦦</div>
-                  <h3 className="text-lg font-bold text-green-100">Learn {cipherAlgorithms[selectedCipher].name} with Expert's & Otto's Notes</h3>
+                  <h3 className="text-lg font-bold text-green-100">Expert's and Otto's Notes</h3>
                 </div>
                 {showNotes ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
               </button>
@@ -1493,20 +1680,21 @@ More math = more security! 🦦✨`
                 <div className="mb-6">
                   <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 max-w-3xl mx-auto mb-4">
                     {(() => {
-                      // Division C related ciphers (last 9 ciphers added)
-                      const divisionCCiphers = ['railfence', 'pollux', 'morbit', 'vigenere', 'rsa', 'aristocratMisspelled', 'dancingMen', 'hill2x2', 'hill3x3'];
-                      
-                      // Filter ciphers based on Division C toggle
+                      // Filter ciphers based on active filter type
                       const availableCiphers = Object.keys(cipherAlgorithms).filter(key => {
-                        // If Division C is not shown, exclude Division C ciphers
-                        if (!showDivisionC && divisionCCiphers.includes(key)) {
-                          return false;
+                        const cipher = cipherAlgorithms[key];
+                        if (activeFilterType === 'competition') {
+                          return competitionLevelFilter === 'all' || cipher.competitionLevel === competitionLevelFilter;
+                        } else if (activeFilterType === 'difficulty') {
+                          return difficultyFilter === 'all' || cipher.difficulty === difficultyFilter;
+                        } else if (activeFilterType === 'historical') {
+                          return historicalPeriodFilter === 'all' || cipher.historicalPeriod === historicalPeriodFilter;
                         }
                         return true;
                       });
                       
                       return availableCiphers.map(key => {
-                        const isDivisionC = divisionCCiphers.includes(key);
+                        const cipher = cipherAlgorithms[key];
                         return (
                           <button 
                             key={key} 
@@ -1514,14 +1702,12 @@ More math = more security! 🦦✨`
                             className={`p-3 rounded-lg text-sm transition-all transform hover:scale-105 ${
                               selectedCipher === key 
                                 ? 'bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900 font-bold shadow-lg' 
-                                : isDivisionC 
-                                  ? 'bg-gray-800/50 hover:bg-gray-700/60 border border-gray-600/50' 
-                                  : 'bg-white/10 hover:bg-white/20'
+                                : 'bg-white/10 hover:bg-white/20'
                             }`}
                           >
                             <div className="flex flex-col items-center gap-1">
-                              <span>{cipherAlgorithms[key].name}</span>
-                              <span>{getDifficultyBadge(cipherAlgorithms[key].difficulty)}</span>
+                              <span>{cipher.name}</span>
+                              <span>{getDifficultyBadge(cipher.difficulty)}</span>
                             </div>
                           </button>
                         );
