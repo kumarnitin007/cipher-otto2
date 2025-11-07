@@ -3,7 +3,7 @@ export const railfenceCipher = {
   description: 'Zigzag transposition cipher',
   category: 'transposition',
   difficulty: 'intermediate',
-  competitionLevel: 'divisionB',
+  competitionLevel: 'divisionC',
   historicalPeriod: 'modern',
   info: 'Writes the plaintext in a zigzag pattern across multiple rails, then reads off rows. The number of rails determines the encryption.',
   youtubeUrl: 'https://www.youtube.com/watch?v=U3h8gZ8h2YI',
@@ -86,4 +86,4 @@ export const railfenceCipher = {
     
     return result;
   }
-};
+};

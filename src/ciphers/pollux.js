@@ -3,7 +3,7 @@ export const polluxCipher = {
   description: 'Morse code digit substitution cipher',
   category: 'substitution',
   difficulty: 'advanced',
-  competitionLevel: 'divisionB',
+  competitionLevel: 'divisionC',
   historicalPeriod: 'modern',
   info: 'Converts text to Morse code, then substitutes dots and dashes with digits. Each dot/dash combination maps to a unique digit.',
   youtubeUrl: 'https://www.youtube.com/watch?v=U3h8gZ8h2YI',
@@ -89,4 +89,4 @@ export const polluxCipher = {
     
     return result;
   }
-};
+};

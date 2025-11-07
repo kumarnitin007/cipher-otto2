@@ -3,7 +3,7 @@ export const dancingMenCipher = {
   description: 'Substitution cipher from Sherlock Holmes',
   category: 'encoding',
   difficulty: 'beginner',
-  competitionLevel: 'divisionB',
+  competitionLevel: 'divisionC',
   historicalPeriod: 'modern',
   info: 'A substitution cipher where each letter is represented by a stick figure in different poses. Popularized in "The Adventure of the Dancing Men" by Arthur Conan Doyle.',
   youtubeUrl: 'https://www.youtube.com/watch?v=U3h8gZ8h2YI',
@@ -45,4 +45,4 @@ export const dancingMenCipher = {
       return char;
     }).join('');
   }
-};
+};

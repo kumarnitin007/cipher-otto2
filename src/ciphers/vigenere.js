@@ -3,7 +3,7 @@ export const vigenereCipher = {
   description: 'Polyalphabetic substitution cipher',
   category: 'polyalphabetic',
   difficulty: 'intermediate',
-  competitionLevel: 'divisionB',
+  competitionLevel: 'divisionC',
   historicalPeriod: 'modern',
   info: 'Uses a keyword to create multiple Caesar ciphers. Each letter of the keyword determines the shift for the corresponding plaintext letter.',
   youtubeUrl: 'https://www.youtube.com/watch?v=SkJcmCaHqS0',
@@ -71,4 +71,4 @@ export const vigenereCipher = {
     
     return result;
   }
-};
+};

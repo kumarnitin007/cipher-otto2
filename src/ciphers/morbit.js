@@ -3,7 +3,7 @@ export const morbitCipher = {
   description: 'Morse code digit substitution with pairs',
   category: 'substitution',
   difficulty: 'advanced',
-  competitionLevel: 'divisionB',
+  competitionLevel: 'divisionC',
   historicalPeriod: 'modern',
   info: 'Similar to Pollux but uses pairs of digits. Converts text to Morse, then groups symbols and substitutes with digit pairs.',
   youtubeUrl: 'https://www.youtube.com/watch?v=U3h8gZ8h2YI',
@@ -90,4 +90,4 @@ export const morbitCipher = {
     
     return result;
   }
-};
+};

@@ -3,7 +3,7 @@ export const checkerboardCipher = {
   description: 'Variable-length numerical encoding',
   category: 'polygraphic',
   difficulty: 'advanced',
-  competitionLevel: 'divisionC',
+  competitionLevel: 'divisionB',
   historicalPeriod: 'modern',
   info: 'Used by Soviet spies during the Cold War.',
   youtubeUrl: 'https://www.youtube.com/watch?v=1ggE6xkeQUw',
@@ -34,4 +34,4 @@ export const checkerboardCipher = {
     return cleanText.split('').map(c => board[c] || '').join('');
   },
   decrypt: () => 'Requires board reconstruction'
-};
+};

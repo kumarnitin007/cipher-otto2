@@ -3,7 +3,7 @@ export const nihilistCipher = {
   description: 'Polybius square with numerical addition',
   category: 'polygraphic',
   difficulty: 'advanced',
-  competitionLevel: 'divisionC',
+  competitionLevel: 'divisionB',
   historicalPeriod: 'modern',
   info: 'Used by Russian Nihilists in the 1880s. Combines Polybius square with numerical addition.',
   youtubeUrl: 'https://www.youtube.com/watch?v=FLmk983WHg8&t=366s',
@@ -74,4 +74,4 @@ export const nihilistCipher = {
     }
     return result;
   }
-};
+};

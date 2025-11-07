@@ -3,7 +3,7 @@ export const cryptarithmCipher = {
   description: 'Mathematical puzzle with letter substitution',
   category: 'puzzle',
   difficulty: 'advanced',
-  competitionLevel: 'divisionC',
+  competitionLevel: 'divisionB',
   historicalPeriod: 'modern',
   info: 'A type of mathematical puzzle where digits are replaced by letters. Each letter represents a unique digit, and the equation must be mathematically correct.',
   youtubeUrl: 'https://puzzles-to-print.com/math-puzzles/cryptarithms.shtml',
@@ -188,4 +188,4 @@ export const cryptarithmCipher = {
       return char;
     }).join('');
   }
-};
+};
