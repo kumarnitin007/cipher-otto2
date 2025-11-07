@@ -94,7 +94,7 @@ export const historicalPeriods = {
   ancient: { name: 'Ancient', icon: '🏛️', description: 'Before 1000 CE', color: 'text-amber-300' },
   medieval: { name: 'Medieval', icon: '🏰', description: '1000-1500 CE', color: 'text-yellow-300' },
   renaissance: { name: 'Renaissance', icon: '📚', description: '1500-1800 CE', color: 'text-orange-300' },
-  modern: { name: 'Modern Era', icon: '🔫', description: '1800-1950 CE', color: 'text-red-300' },
+  modern: { name: 'Modern Era', icon: '🏭', description: '1800-1950 CE', color: 'text-red-300' },
   contemporary: { name: 'Contemporary', icon: '💻', description: '1950+ CE', color: 'text-blue-300' }
 };
 
